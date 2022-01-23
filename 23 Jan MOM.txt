@@ -1,0 +1,49 @@
+23 Jan
+
+Agenda
+Agenda (feel free to add /edit):
+- Management Tool to use ( Jira, Asana, Monday, etc.)
+- Roles
+- GIthub?
+- Rough ideas for Mod
+- regular meeting schedule?
+
+
+MOM 
+Project management tools
+Jira
+Justification for picking Jira
+- scrum and board are included in the free version
+- Team's familiarity
+- Felxibility to add features
+- Widely used in the industry 
+https://www.atlassian.com/software/jira/comparison
+
+Roles:
+Dev
+Tester
+PO: Prof
+Scrum master: Have 2?
+Also works as documentor
+Documentor: 
+- Who did what?
+- Allow someone from outside the team to understand it process
+- Also function as code reviewer
+
+Option: Pair dev and tester
+
+Mod idea:
+-Minimal graphics
+-External game within minescraft: minesweeper, tik-tok-toe, tetris, pac-man
+
+Meeting:
+-30 min
+-Scrum every week at 10am on Sundays
+-Sprint every 2 weeks
+
+
+Action items:
+Pick our preferred roles from google docs
+Set up environment: https://codakid.com/guide-to-minecraft-modding-with-java/
+Suffest top 2 game we want in minecraft
+Make a Jira account

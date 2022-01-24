@@ -3,7 +3,7 @@ Minecraft Modding
 </h2>
 
 <h3>
-Listing the team members below, as it is a private repository, only accessible by invitation only.
+Team members
 </h3>
 
 
@@ -19,3 +19,15 @@ Listing the team members below, as it is a private repository, only accessible b
 - Yousik Jeon
 
 
+<h4> Information </h4>
+
+- Base created with forge-1.18-38.0.17-mdk  
+- Setup based on https://www.youtube.com/watch?v=63IhDeGbmi0   
+  (Please add instructions for Eclipse users)
+
+
+<h4> How to run the mod </h4>
+
+- Clone the repository
+- Open `modTest/build.gradle` as project in IDE (Eclipse or IntelliJ)
+- Use `Gradle` tab, find and doubleClick `modTest/Tasks/fg_runs/runClient` or `modTest/Tasks/forgegradle runs/runClient`

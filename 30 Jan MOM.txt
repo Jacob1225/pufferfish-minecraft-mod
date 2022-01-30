@@ -1,0 +1,33 @@
+#30 Jan
+
+Agenda:
+Review of online survey
+Trouble shooting dev environment
+
+MOM:
+Roles:(In google drive file)
+Scrum masters: Nasim and Hamed
+Dev: Others
+	Initial Scope: read forge documentation
+Tester: Anne, Jacob
+	Initial Scope: Decide on testing procedures, unit test, set up junit, Case tests
+
+* Ratio of dev to tester can change throughout
+
+Jira/Github:
+Test and feature in the same epic to facilitate tracking
+Have dev and test branches
+
+Project:Space invader, pacman, robot
+Features to consider:
+-Single player
+-Simple graphics
+-Logic complexity
+
+Scrum meeting:
+Between class and tutorial
+
+Action items:
+Jacob-> make a repo for jira
+Finish setting up dev env
+Discuss final project idea

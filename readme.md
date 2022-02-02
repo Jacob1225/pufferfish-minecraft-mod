@@ -1,4 +1,7 @@
-<h2>Group Project for COMP5541: 
+# pufferfish-minecraft-mod
+Upstream repository: https://github.com/ramou/COMP5541TeamPufferfish
+
+<h2>Group Project for COMP5541:
 Minecraft Modding
 </h2>
 
@@ -21,7 +24,7 @@ Team members
 
 <h4> Information </h4>
 
-- Base created with forge-1.18-38.0.17-mdk  
+- Base created with forge-1.18-38.0.17-mdk
 - Setup based on https://www.youtube.com/watch?v=63IhDeGbmi0   
   (Please add instructions for Eclipse users)
 

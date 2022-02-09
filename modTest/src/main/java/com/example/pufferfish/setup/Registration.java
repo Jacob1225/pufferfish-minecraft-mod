@@ -28,16 +28,16 @@ public class Registration {
     public static final Item.Properties ITEM_PROPERTIES = new Item.Properties().tab(ModSetup.ITEM_GROUP);
 
     // adding blocks - blocks seem to have to be created as block & item?
-    public static final RegistryObject<Block> MYSTERIOUS_ORE_OVERWORLD = BLOCKS.register("mystreious_ore_overworld", () -> new Block(ORE_PROPERTIES));
+    public static final RegistryObject<Block> MYSTERIOUS_ORE_OVERWORLD = BLOCKS.register("mysterious_ore_overworld", () -> new Block(ORE_PROPERTIES));
     public static final RegistryObject<Item> MYSTERIOUS_ORE_OVERWORLD_ITEM = fromBlock(MYSTERIOUS_ORE_OVERWORLD);
 
-    public static final RegistryObject<Block> MYSTERIOUS_ORE_NETHER = BLOCKS.register("mystreious_ore_nether", () -> new Block(ORE_PROPERTIES));
+    public static final RegistryObject<Block> MYSTERIOUS_ORE_NETHER = BLOCKS.register("mysterious_ore_nether", () -> new Block(ORE_PROPERTIES));
     public static final RegistryObject<Item> MYSTERIOUS_ORE_NETHER_ITEM = fromBlock(MYSTERIOUS_ORE_NETHER);
 
-    public static final RegistryObject<Block> MYSTERIOUS_ORE_END = BLOCKS.register("mystreious_ore_end", () -> new Block(ORE_PROPERTIES));
+    public static final RegistryObject<Block> MYSTERIOUS_ORE_END = BLOCKS.register("mysterious_ore_end", () -> new Block(ORE_PROPERTIES));
     public static final RegistryObject<Item> MYSTERIOUS_ORE_END_ITEM = fromBlock(MYSTERIOUS_ORE_END);
 
-    public static final RegistryObject<Block> MYSTERIOUS_ORE_DEEPSLATE = BLOCKS.register("mystreious_ore_deepslate", () -> new Block(ORE_PROPERTIES));
+    public static final RegistryObject<Block> MYSTERIOUS_ORE_DEEPSLATE = BLOCKS.register("mysterious_ore_deepslate", () -> new Block(ORE_PROPERTIES));
     public static final RegistryObject<Item> MYSTERIOUS_ORE_DEEPSLATE_ITEM = fromBlock(MYSTERIOUS_ORE_DEEPSLATE);
 
     // adding items

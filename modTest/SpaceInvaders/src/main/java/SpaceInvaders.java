@@ -6,20 +6,20 @@ public class SpaceInvaders {
         System.out.print("here");
     }
 
-    //var alien1Image="src/images/invader1.jpg";
-    //var alien1i=new ImageIcon(alien1Image);
-
     //public static void updateScreen(array with alien positions)
-    //public static void invaderMove()
     //score
     //get position
     //bomb
     //Constructor
-    public SpaceInvaders(){
+    public SpaceInvaders(int[] position){//put default value
+        //position of rectangle
 
     }
-//    public static boolean invaderShot(float xpos,float ypos)
-//    {
+    public static void invaderMove(){
+        //go to right until wall, go down, go to left until wall, go down... until bottom
+    }
+    //public static boolean invaderShot(float xpos,float ypos)
+    //    {
 //        for (i=0; i<len(invaders);i++) {
 //            if ((xpos == invader[x]) && (ypos==pos[y])){
 //                return true;
@@ -28,7 +28,11 @@ public class SpaceInvaders {
 //        }
 //        return false;
 //    }
+    public static int keepScore(){
+        //if shot, update score
 
+        return score;
+    }
 
 }
 

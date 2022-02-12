@@ -1,1 +1,5 @@
-/modTest/run/logs/
+modTest/run/
+modTest/build/
+.metadata
+modTest/.gradle
+modTest/.idea

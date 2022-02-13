@@ -27,7 +27,7 @@ public class ModSetup {
     public static void setup() {
         IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(Ores::onBiomeLoadingEvent);
-        bus.addListener(EventPriority.NORMAL, Structures::addDimensionalSpacing);
+//        bus.addListener(EventPriority.NORMAL, Structures::addDimensionalSpacing);
         bus.addListener(EventPriority.NORMAL, Structures::setupStructureSpawns);
     }
 

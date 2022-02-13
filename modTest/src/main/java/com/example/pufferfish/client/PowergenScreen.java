@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class PowergenScreen extends AbstractContainerScreen<PowergenContainer> {
 
-    private final ResourceLocation GUI = new ResourceLocation(PufferFish.MODID, "assets/textures/gui/powergen_gui.png");
+    private final ResourceLocation GUI = new ResourceLocation(PufferFish.MODID, "assets/pufferfish/textures/gui/powergen_gui.png");
 
     public PowergenScreen(PowergenContainer container, Inventory inv, Component name) {
         super(container, inv, name);

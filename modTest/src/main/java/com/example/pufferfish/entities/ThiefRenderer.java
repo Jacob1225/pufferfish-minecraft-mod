@@ -9,7 +9,7 @@ import javax.annotation.Nonnull;
 
 public class ThiefRenderer extends HumanoidMobRenderer<ThiefEntity, ThiefModel> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(PufferFish.MODID, "assets/textures/entity/thief.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(PufferFish.MODID, "assets/pufferfish/textures/entity/thief.png");
 
     public ThiefRenderer(EntityRendererProvider.Context context) {
         super(context, new ThiefModel(context.bakeLayer(ThiefModel.THIEF_LAYER)), 1f);

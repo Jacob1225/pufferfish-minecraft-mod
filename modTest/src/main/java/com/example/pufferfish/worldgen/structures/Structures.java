@@ -149,16 +149,16 @@ public class Structures {
         if (event.getWorld() instanceof ServerLevel serverLevel) {
             ChunkGenerator chunkGenerator = serverLevel.getChunkSource().getGenerator();
             // Skip superflat to prevent issues with it. Plus, users don't want structures clogging up their superflat worlds.
-            if (chunkGenerator instanceof FlatLevelSource && serverLevel.dimension().equals(Level.OVERWORLD)) {
-                return;
-            }
+//            if (chunkGenerator instanceof FlatLevelSource && serverLevel.dimension().equals(Level.OVERWORLD)) {
+//                return;
+//            }
 
             ConfiguredStructureFeature<?, ?> portalFeature = null;
-            if (serverLevel.dimension().equals(Level.OVERWORLD)) {
-                portalFeature = CONFIGURED_PORTAL_OVERWORLD;
-            } else if (serverLevel.dimension().equals(Dimensions.MYSTERIOUS)) {
-                portalFeature = CONFIGURED_PORTAL_MYSTERIOUS;
-            }
+//            if (serverLevel.dimension().equals(Level.OVERWORLD)) {
+//                portalFeature = CONFIGURED_PORTAL_OVERWORLD;
+//            } else if (serverLevel.dimension().equals(Dimensions.MYSTERIOUS)) {
+//                portalFeature = CONFIGURED_PORTAL_MYSTERIOUS;
+//            }
 
             StructureSettings worldStructureConfig = chunkGenerator.getSettings();
 

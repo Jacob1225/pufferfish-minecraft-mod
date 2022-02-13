@@ -1,0 +1,4 @@
+{
+  "parent": "gui/generated",
+  "textures": { "layer0": "pufferfish:gui/powergen_gui" }
+}

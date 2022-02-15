@@ -1,4 +1,7 @@
 package com.project.pufferfish;
+import com.project.pufferfish.utils.KeyPressHandler;
+import com.project.pufferfish.utils.Reference;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -24,6 +27,7 @@ public class Invaders {
 
         @EventHandler
         public void init (FMLInitializationEvent event) {
+                MinecraftForge.EVENT_BUS.register(new KeyPressHandler());
         }
 
         @EventHandler

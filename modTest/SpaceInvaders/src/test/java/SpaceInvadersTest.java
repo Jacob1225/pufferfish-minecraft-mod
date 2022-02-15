@@ -25,6 +25,7 @@ class SpaceInvadersTest {
 
     	InvadersCreation();
         invaderShotTest();
+        updateBoard();
     }
     
     public static void InvadersCreation() {
@@ -61,6 +62,15 @@ class SpaceInvadersTest {
     	}
     	System.out.println("Update score after a miss: "+score);
     }
+    
+    public static void updateBoard(){
+    	for(SpaceInvaders invader: invaders) {
+    		if(invader.isAlive==true) {
+    			System.out.println("Invader postitons "+invader.x+" , "+invader.y);
+    		}
+    	}
+    }
+    
 
     public static void InvaderMoveTest(){
         //send board limits

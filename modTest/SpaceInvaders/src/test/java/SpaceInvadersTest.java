@@ -70,9 +70,25 @@ class SpaceInvadersTest {
     		}
     	}
     }
-    
 
+  //Aliens movement test
+    static int ALIEN_HEIGHT = 5;
+	static int ALIEN_WIDTH = 5;
+    static int BOARD_HEIGHT = 300;//temporary board limits
+    static int BOARD_WIDTH = 300;//temporary board limits
+    static int BOARD_MARGIN = 5; //So the alien doesn't go beyond the margins
+    
     public static void InvaderMoveTest(){
-        //send board limits
+//If right border is reached
+    	boolean rightReached = false;
+    	for(SpaceInvaders invader: invaders) {
+    		invader.detectBordersGoDown();
+    		if(invader.getxpos() >= BOARD_WIDTH -BOARD_MARGIN - ALIEN_WIDTH) {
+    			rightReached = true;
+    			break;
+    		}
+    	}
+    	System.out.println("Space invaders have reached the right border.");
+  
     }
 }

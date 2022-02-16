@@ -39,7 +39,7 @@ jobs:
            command: |
             cd teamPufferFish
             chmod 700 gradle
-            gradle dependencies
+            gradlew dependencies
 
       - save_cache:
           paths:
@@ -51,4 +51,4 @@ jobs:
           command: |
             cd teamPufferFish
             chmod 700 gradle
-            gradle test
+            gradlew test

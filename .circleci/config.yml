@@ -31,16 +31,24 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-{{ checksum "teamPufferFish/build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: gradle dependencies
+      - run: 
+           command: |
+           cd teamPufferFish
+           chmod 700 gradle
+           ./gradle dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "teamPufferFish/build.gradle" }}
 
       # run tests!
-      - run: gradle test
+      - run: 
+          Command: |
+          cd teamPufferFish
+          chmod 700 gradle
+          ./gradle test

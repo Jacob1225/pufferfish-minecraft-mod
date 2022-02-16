@@ -37,9 +37,9 @@ jobs:
 
       - run: 
            command: |
-           cd teamPufferFish
-           chmod 700 gradle
-           ./gradle dependencies
+            cd teamPufferFish
+            chmod 700 gradle
+            ./gradle dependencies
 
       - save_cache:
           paths:
@@ -48,7 +48,7 @@ jobs:
 
       # run tests!
       - run: 
-          Command: |
-          cd teamPufferFish
-          chmod 700 gradle
-          ./gradle test
+          command: |
+            cd teamPufferFish
+            chmod 700 gradle
+            ./gradle test

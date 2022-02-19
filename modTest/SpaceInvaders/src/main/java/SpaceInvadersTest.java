@@ -1,18 +1,24 @@
-package test.java;
+package src.main.java;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import main.java.SpaceInvaders;
-//import static org.junit.jupiter.api.Assertions.*;
+import java.util.Random;
 
+import org.junit.jupiter.api.Test;
 
 class SpaceInvadersTest {
+
 	static List<SpaceInvaders> invaders;
     static int ALIEN_INIT_X = 150;//Position of first invader
     static int ALIEN_INIT_Y = 5;
     static int score=100;
-    int NumberOfInvaders=24;
+    static int NumberOfInvaders=24;
     static int InvaderRows=4;
     static int InvaderCols=6;
+  //Create bullet
+	static Bullet bullet=new Bullet();
 
    public SpaceInvadersTest() {
     	
@@ -20,12 +26,10 @@ class SpaceInvadersTest {
 
     
     public static void main(String[] args){
-//NOT ORIGINAL CODE -> creating individual invaders
-    	//System.out.print("hello");
-
     	InvadersCreation();
         invaderShotTest();
         updateBoard();
+        invaderShootingTest();
     }
     
     public static void InvadersCreation() {
@@ -35,6 +39,7 @@ class SpaceInvadersTest {
 
             	 SpaceInvaders invader=new SpaceInvaders(ALIEN_INIT_X + 18 * j, ALIEN_INIT_Y + 18 * i,(i+1)*10);
                  invaders.add(invader);
+                 System.out.println("Invader number "+invader.invaderId+" was created");
              }
          } 
 	}
@@ -70,6 +75,23 @@ class SpaceInvadersTest {
     		}
     	}
     }
+// Space invader shooting
+    public static void invaderShootingTest(){
+    	//Pick an alien
+    	Random generator = new Random();
+    	int randomInvader=generator.nextInt(NumberOfInvaders);
+    	for (SpaceInvaders invader: invaders) {
+    	//If there is no bullet being shot (dropped==false) and alien is alive (isAlive=true)
+    		System.out.println("Invader num "+invader.invaderId);
+    		if((invader.invaderId==randomInvader) && (bullet.dropped==false)) {
+    			bullet.set(invader.x,invader.y);
+    			System.out.println("Invader number "+invader.invaderId+" is shooting");
+    		}
+    			
+    	}
+    	
+    	//create bomb with the alien location and set dropped flag to true
+    }
 
   //Aliens movement test
     static int ALIEN_HEIGHT = 5;
@@ -78,17 +100,14 @@ class SpaceInvadersTest {
     static int BOARD_WIDTH = 300;//temporary board limits
     static int BOARD_MARGIN = 5; //So the alien doesn't go beyond the margins
     
-    public static void InvaderMoveTest(){
-//If right border is reached
-    	boolean rightReached = false;
-    	for(SpaceInvaders invader: invaders) {
-    		invader.detectBordersGoDown();
-    		if(invader.getxpos() >= BOARD_WIDTH -BOARD_MARGIN - ALIEN_WIDTH) {
-    			rightReached = true;
-    			break;
-    		}
-    	}
-    	System.out.println("Space invaders have reached the right border.");
-  
-    }
+	/*
+	 * public static void InvaderMoveTest(){ //If right border is reached boolean
+	 * rightReached = false; for(SpaceInvaders invader: invaders) {
+	 * invader.detectBordersGoDown(); if(invader.getxpos() >= BOARD_WIDTH
+	 * -BOARD_MARGIN - ALIEN_WIDTH) { rightReached = true; break; } }
+	 * System.out.println("Space invaders have reached the right border.");
+	 * 
+	 * }
+	 */
+
 }

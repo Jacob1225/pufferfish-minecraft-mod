@@ -30,6 +30,8 @@ class SpaceInvadersTest {
         invaderShotTest();
         updateBoard();
         invaderShootingTest();
+        invaderMoveTest();
+        isVisibleTest();
     }
     
     public static void InvadersCreation() {
@@ -92,6 +94,17 @@ class SpaceInvadersTest {
     	
     	//create bomb with the alien location and set dropped flag to true
     }
+    
+ //Visible aliens after invaderShotTest
+    public static void isVisibleTest() {
+    	for(SpaceInvaders invader: invaders) {
+    		if(invader.isVisible() == true) {
+    			System.out.println("Invader "+ invader.invaderId+ " is visible");
+    		}
+    		else
+    			System.out.println("Invader "+ invader.invaderId+ " is not visible");
+    	}
+    }
 
   //Aliens movement test
     static int ALIEN_HEIGHT = 5;
@@ -99,15 +112,17 @@ class SpaceInvadersTest {
     static int BOARD_HEIGHT = 300;//temporary board limits
     static int BOARD_WIDTH = 300;//temporary board limits
     static int BOARD_MARGIN = 5; //So the alien doesn't go beyond the margins
-    
-	/*
-	 * public static void InvaderMoveTest(){ //If right border is reached boolean
-	 * rightReached = false; for(SpaceInvaders invader: invaders) {
-	 * invader.detectBordersGoDown(); if(invader.getxpos() >= BOARD_WIDTH
-	 * -BOARD_MARGIN - ALIEN_WIDTH) { rightReached = true; break; } }
-	 * System.out.println("Space invaders have reached the right border.");
-	 * 
-	 * }
-	 */
-
+	
+	public static void invaderMoveTest(){ //Check if right border is reached 
+		int count = 0; //To count the number of times the aliens have reached the right border
+		for(SpaceInvaders invader: invaders) {
+			invader.invadersMove(invaders); 
+			if(invader.getxpos() >= BOARD_WIDTH - BOARD_MARGIN - ALIEN_WIDTH) {
+				//System.out.println("Space invaders have reached the right border."); 
+				count++; 
+			} 
+		}
+		System.out.println("Number of times the space invaders have reached the right border: " + count); 
+	}	
+	 
 }

@@ -31,7 +31,7 @@ public class GameBoard extends GuiScreen {
     private int iVol = 100;
 
     // GUI Variables
-    public int textureWidth = 256, textureHeight = 256;
+    public int textureWidth = 256, textureHeight = 266;
     private int guiLeft, guiTop;
     private int xSize = 0, ySize = 0;
     private ResourceLocation gui;
@@ -41,6 +41,7 @@ public class GameBoard extends GuiScreen {
     private int[] offset = { 0, 0 };
     private float scale = 1;
     public int xScaled, yScaled;
+    private static final int GUI_X = 234, GUI_Y = 284;
 
     // Cost Variables
     private int cost = 1;
@@ -55,7 +56,7 @@ public class GameBoard extends GuiScreen {
 
     // Arrow Texture
     private static final ResourceLocation arrows = new ResourceLocation(Reference.MODID + "/textures/gui/gui_arrows.png");
-    private static final ResourceLocation generic = new ResourceLocation(Reference.MODID + "/textures/gui/generic_gui.png");
+    private static final ResourceLocation generic = new ResourceLocation(Reference.MODID,"textures/gui/generic_gui.png");
 
     public GameBoard(World world, TileEntity tileEntity, @Nullable BlockPos pos, EntityPlayer player) {
         this.pos = pos;
@@ -64,11 +65,10 @@ public class GameBoard extends GuiScreen {
         menu = startMenu;
         this.fontRenderer = mc.getMinecraft().fontRenderer;
         buttonWidth = this.fontRenderer.getStringWidth(I18n.format("button.pufferfish:insert.locale")) + 6;
+        setGuiSize(GUI_X, GUI_Y, 0.8F);
+        setTexture(generic, 512, 512);
     }
 
-    public GameBoard() {
-
-    }
 
     /**
      * Set the width and height of the GUI Texture
@@ -196,33 +196,6 @@ public class GameBoard extends GuiScreen {
         buttonHeight = height;
     }
 
-    /**
-     * Set how many coins the player needs to play game
-     *
-     * @param cost Max 64
-     */
-    public void setCost (int cost) throws IndexOutOfBoundsException {
-        if (cost > 64) throw new IndexOutOfBoundsException("Max is 64");
-        else this.cost = cost;
-    }
-
-    public void increaseVolume () {
-        if (iVol < 100) iVol += 10;
-    }
-
-    public void decreaseVolume () {
-        if (iVol > 0) iVol -= 10;
-    }
-
-    // TODO: Save to TileEntity
-    public void saveVolume (boolean update) {
-        if (update) volume = iVol / 100f;
-        else iVol = (int)(volume * 100);
-    }
-
-    public float getVolume () {
-        return volume;
-    }
 
     /**
      * Returns World passed by GUIHandler
@@ -266,36 +239,16 @@ public class GameBoard extends GuiScreen {
         this.drawDefaultBackground();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.scale(scale, scale, scale);
-        this.mc.getTextureManager().bindTexture(generic);
-        this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight);
+        this.mc.getTextureManager().bindTexture(gui);
+        this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight); // TODO: Allow offset?
 
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        if (useInternalMenu) {
-            int coinWidth = this.fontRenderer.getStringWidth(I18n.format("button.pufferfish:insert.locale") + "...");
-            int neededSingWidth = this.fontRenderer.getStringWidth(cost + " " + I18n.format("text.pufferfish:needed.locale"));
-            int neededPluralWidth = this.fontRenderer.getStringWidth(cost + " " + I18n.format("text.pufferfish:needed_plural.locale"));
-
-            if (inMenu) {
-                switch (menu) {
-                    case -1: // Insert Coin Menu
-                        buttonList.get(0).enabled = true;
-                        buttonList.get(0).visible = true;
-                        this.fontRenderer.drawString(I18n.format("button.pufferfish:insert.locale") + "...", xScaled - (coinWidth / 2) + offset[0], yScaled + offset[1], 16777215);
-                        break;
-                }
-            }
-
-        }
     }
 
-    public void drawVolumeBar (int x, int y) {
-        String bar = "[";
+    @Override
+    public void drawHoveringText(java.util.List<java.lang.String> textLines, int x, int y) {
 
-        for (int i = 0; i < (iVol / 10); i++) bar += "||";
-        for (int i = 0; i < 10 - (iVol / 10); i++) bar += " ";
-
-        this.fontRenderer.drawString(bar + "] " + iVol + "%", x - (this.fontRenderer.getStringWidth(bar + "] " + iVol + "%") / 2), y, editVolume ? Color.white.getRGB() : Color.gray.getRGB());
     }
 
     /**

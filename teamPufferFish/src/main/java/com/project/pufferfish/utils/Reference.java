@@ -1,4 +1,4 @@
-package com.project.pufferfish;
+package com.project.pufferfish.utils;
 
 import net.minecraft.util.ResourceLocation;
 

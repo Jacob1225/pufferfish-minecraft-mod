@@ -1,0 +1,61 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"model": "pufferfish:generic_machine.obj",
+		"custom": { "flip-v": true }
+	},
+	"variants": {
+        "game": {
+			"spaceinvaders": {
+            	"model": "pufferfish:game_block.obj"
+            }
+		},
+		"facing": {
+			"south": {
+                "transform": {
+                	"gui": {
+                        "translation": [0, -0.167, 0],
+			            "rotation": [{ "x": 30 }, { "y": 225 }],
+			            "scale": 0.4167
+			        },
+			        "ground": {
+			            "scale": 0.25
+			        },
+			        "fixed": {
+                        "translation": [0, -0.25, 0],
+			            "scale": 0.5
+			        },
+			        "head": {
+			            "scale": 0.625
+			        },
+			        "firstperson_lefthand": {
+			            "rotation": [{ "y": -225 }],
+			            "scale": 0.4
+			        },
+			        "firstperson_righthand": {
+			        	"rotation": [{ "y": 45 }],
+			            "scale": 0.4
+			        },
+			        "thirdperson_lefthand": {
+			            "scale": 0.625
+			        },
+			        "thirdperson_righthand": {
+			        	"translation": [0, 2.5, 0],
+			        	"rotation": [{ "x": 75 }, { "y": 45 }],
+			            "scale": 0.375
+			        }
+                },
+				"y": 0
+			},
+			"west": {
+				"y": 90
+			},
+			"north": {
+				"y": 180
+			},
+			"east": {
+				"y": 270
+			}
+		}
+	}
+}

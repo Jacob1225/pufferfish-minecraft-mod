@@ -24,7 +24,7 @@ Team members
 
 <h4> Information </h4>
 
-- Base created with forge-1.18-38.0.17-mdk
+- Base created with ~~forge-1.18-38.0.17-mdk~~ -> forge 1.12.2 
 - Setup based on https://www.youtube.com/watch?v=63IhDeGbmi0   and
   https://www.youtube.com/watch?v=BGzAbutqlyY&list=PLmaTwVFUUXiCO5GNhVHqQFXFa6U4WoIaB&index=2
 

@@ -235,15 +235,11 @@ public class GameBoard extends GuiScreen {
     public void drawScreen (int mouseX, int mouseY, float partialTicks) {
         xScaled = Math.round((width / 2) / scale);
         yScaled = Math.round((height / 2) / scale);
-
-        this.drawDefaultBackground();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.scale(scale, scale, scale);
         this.mc.getTextureManager().bindTexture(gui);
-        this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight); // TODO: Allow offset?
-
+        this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight);
         super.drawScreen(mouseX, mouseY, partialTicks);
-
     }
 
     @Override

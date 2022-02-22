@@ -1,6 +1,6 @@
 package com.project.pufferfish.gui;
 
-import com.project.pufferfish.utils.Reference;
+import com.project.pufferfish.utils.ReferenceData;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -55,8 +55,8 @@ public class GameBoard extends GuiScreen {
     private BlockPos pos;
 
     // Arrow Texture
-    private static final ResourceLocation arrows = new ResourceLocation(Reference.MODID + "/textures/gui/gui_arrows.png");
-    private static final ResourceLocation generic = new ResourceLocation(Reference.MODID,"textures/gui/generic_gui.png");
+    private static final ResourceLocation arrows = new ResourceLocation(ReferenceData.MODID + "/textures/gui/gui_arrows.png");
+    private static final ResourceLocation generic = new ResourceLocation(ReferenceData.MODID,"textures/gui/generic_gui.png");
 
     public GameBoard(World world, TileEntity tileEntity, @Nullable BlockPos pos, EntityPlayer player) {
         this.pos = pos;

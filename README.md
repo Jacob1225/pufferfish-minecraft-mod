@@ -24,11 +24,7 @@ Team members
 
 <h4> Information </h4>
 
-<<<<<<< HEAD
-- Base created with forge-1.18-38.0.17-mdk  -> 1.12.2 downgraded with agreement due to issues
-=======
 - Base created with ~~forge-1.18-38.0.17-mdk~~ -> forge 1.12.2 
->>>>>>> a1b671d8c61a1b828fb0bb29ce0239a5dd90b34a
 - Setup based on https://www.youtube.com/watch?v=63IhDeGbmi0   and
   https://www.youtube.com/watch?v=BGzAbutqlyY&list=PLmaTwVFUUXiCO5GNhVHqQFXFa6U4WoIaB&index=2
 

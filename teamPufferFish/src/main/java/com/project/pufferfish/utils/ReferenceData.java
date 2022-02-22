@@ -2,7 +2,7 @@ package com.project.pufferfish.utils;
 
 import net.minecraft.util.ResourceLocation;
 
-public class Reference {
+public class ReferenceData {
     public static final String MODID = "pufferfish";
     public static final String NAME = "Invaders Mod";
     public static final String VERSION = "0.0.1";

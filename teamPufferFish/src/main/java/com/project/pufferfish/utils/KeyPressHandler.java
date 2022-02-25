@@ -19,8 +19,8 @@ public class KeyPressHandler {
         World world = player.world;
         TileEntityArcade tileEntity = new TileEntityArcade();
 
-        if (Minecraft.getMinecraft().gameSettings.keyBindSneak.isPressed()){
-            Minecraft.getMinecraft().displayGuiScreen(new GameBoard(world, tileEntity, null, player));
+        if (Minecraft.getMinecraft().gameSettings.keyBindSneak.isPressed()){ //when the shift key is pressed, it will open the GUI
+            Minecraft.getMinecraft().displayGuiScreen(new GameBoard(world, tileEntity, null, player)); //Opening the GUI
             return;
         }
     }

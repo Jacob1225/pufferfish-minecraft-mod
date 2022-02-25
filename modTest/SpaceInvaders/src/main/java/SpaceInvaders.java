@@ -104,14 +104,14 @@ public class SpaceInvaders {
     	if ((xpos+2 >= x) && (x >=xpos-2) && (ypos+2 >= y) && (y >=ypos-2)){
     		//Kill the invader
     		isAlive=false;
-    		isVisible();//To make the alien disappear
+    		isVisible(isAlive);//To make the alien disappear
     		return true;	
     	}
     	//score
     	return false;
     }
     
-    public boolean isVisible() {
+    public boolean isVisible(boolean isAlive) {
     	if (isAlive == false) {
     		isVisible = false;
     	}

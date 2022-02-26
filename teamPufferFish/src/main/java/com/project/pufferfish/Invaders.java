@@ -1,6 +1,6 @@
 package com.project.pufferfish;
 import com.project.pufferfish.utils.KeyPressHandler;
-import com.project.pufferfish.utils.Reference;
+import com.project.pufferfish.utils.ReferenceData;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -11,13 +11,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-@Mod(modid = Reference.MODID, name = Reference.NAME, version = Reference.VERSION)
+@Mod(modid = ReferenceData.MODID, name = ReferenceData.NAME, version = ReferenceData.VERSION)
 public class Invaders {
-        @Mod.Instance(Reference.MODID)
+        @Mod.Instance(ReferenceData.MODID)
         public static Invaders instance;
 
         // Logger
-        public static final Logger logger = LogManager.getLogger(Reference.MODID);
+        public static final Logger logger = LogManager.getLogger(ReferenceData.MODID);
 
 
         @EventHandler

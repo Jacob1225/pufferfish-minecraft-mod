@@ -56,7 +56,7 @@ public class GameBoard extends GuiScreen {
 
     // Arrow Texture
     private static final ResourceLocation arrows = new ResourceLocation(ReferenceData.MODID + "/textures/gui/gui_arrows.png");
-    private static final ResourceLocation generic = new ResourceLocation(ReferenceData.MODID,"textures/gui/generic_gui.png");
+    private static final ResourceLocation generic = new ResourceLocation(ReferenceData.MODID,"textures/gui/gui_background.png");
 
     public GameBoard(World world, TileEntity tileEntity, @Nullable BlockPos pos, EntityPlayer player) {
         this.pos = pos;
@@ -242,10 +242,6 @@ public class GameBoard extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    @Override
-    public void drawHoveringText(java.util.List<java.lang.String> textLines, int x, int y) {
-
-    }
 
     /**
      * Draw left arrow

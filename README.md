@@ -34,3 +34,8 @@ Team members
 - Open `modTest/build.gradle` as project in IDE (Eclipse or IntelliJ)    
 - Use `Gradle` tab, find and doubleClick `modTest/Tasks/fg_runs/runClient` or `modTest/Tasks/forgegradle runs/runClient`   
 - If you see the 'pufferfish' on mods list, try to create a game in creative mode
+
+<h4> How to open the Game Board </h4>
+- Run the forge mod and open Minecraft in Creative mode
+- When in game, press the "Shift" key to open the board
+- To close the board, press the "esc" key

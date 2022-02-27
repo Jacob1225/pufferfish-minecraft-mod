@@ -36,6 +36,7 @@ Team members
 - If you see the 'pufferfish' on mods list, try to create a game in creative mode
 
 <h4> How to open the Game Board </h4>
-- Run the forge mod and open Minecraft in Creative mode
-- When in game, press the "Shift" key to open the board
+
+- Run the forge mod and open Minecraft in Creative mode 
+- When in game, press the "Shift" key to open the board   
 - To close the board, press the "esc" key

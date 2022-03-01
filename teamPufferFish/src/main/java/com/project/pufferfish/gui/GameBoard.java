@@ -1,6 +1,8 @@
 package com.project.pufferfish.gui;
 
 import com.project.pufferfish.utils.ReferenceData;
+
+import SpaceInvaders.SpaceInvaders;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -15,6 +17,8 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameBoard extends GuiScreen {
     // Tick Variables
@@ -42,6 +46,7 @@ public class GameBoard extends GuiScreen {
     private float scale = 1;
     public int xScaled, yScaled;
     private static final int GUI_X = 234, GUI_Y = 284;
+    private static final int MAZE_X = 224, MAZE_Y = 248;
 
     // Cost Variables
     private int cost = 1;
@@ -57,7 +62,19 @@ public class GameBoard extends GuiScreen {
     // Arrow Texture
     private static final ResourceLocation arrows = new ResourceLocation(ReferenceData.MODID + "/textures/gui/gui_arrows.png");
     private static final ResourceLocation generic = new ResourceLocation(ReferenceData.MODID,"textures/gui/gui_background.png");
-
+    private static final ResourceLocation invaderImage = new ResourceLocation(ReferenceData.MODID,"textures/gui/spaceinvaders.png");
+    
+    //Invader variables
+    static List<SpaceInvaders> invaders;
+    static int ALIEN_INIT_X = 150;//Position of first invader
+    static int ALIEN_INIT_Y = 5;
+    static int score=100;
+    static int NumberOfInvaders=24;
+    static int InvaderRows=4;
+    static int InvaderCols=6;
+    private ResourceLocation invaderIm;
+    SpaceInvaders invader;
+    
     public GameBoard(World world, TileEntity tileEntity, @Nullable BlockPos pos, EntityPlayer player) {
         this.pos = pos;
         this.world = world;
@@ -66,10 +83,32 @@ public class GameBoard extends GuiScreen {
         this.fontRenderer = mc.getMinecraft().fontRenderer;
         buttonWidth = this.fontRenderer.getStringWidth(I18n.format("button.pufferfish:insert.locale")) + 6;
         setGuiSize(GUI_X, GUI_Y, 0.8F);
-        setTexture(generic, 512, 512);
+        //setTexture(generic, 512, 512);
+        setTexture(invaderImage, 512, 512);
+        invaderMove(invader,tickCounter);
+        
     }
+    public void InvadersCreation() {
+    	invaders=new ArrayList<>();
+    	 for (int i = 0; i < InvaderRows; i++) {
+             for (int j = 0; j < InvaderCols; j++) {
 
+            	 SpaceInvaders invader=new SpaceInvaders(18 * j, 18 * i,(i+1)*10);
+                 invaders.add(invader);
+                 this.drawModalRectWithCustomSizedTexture(GUI_X+18 * j , 18 * i , GUI_X+10, MAZE_Y, 15, 15, 512, 512);//position in the game, position in the image, width/height of the portion wanted, width/height of image 
+                 //System.out.println("Invader number "+invader.invaderId+" was created");
+             }
+         } 
+	}
 
+    public static void invaderMove(SpaceInvaders invader,int count){ //Check if right border is reached 
+		invader.invadersMove(invaders); 
+		if(invader.getxpos() >= GUI_X - GUI_Y - 15) {
+			//System.out.println("Space invaders have reached the right border."); 
+			count++; 
+		} 
+	//System.out.println("Number of times the space invaders have reached the right border: " + count); 
+    }
     /**
      * Set the width and height of the GUI Texture
      *
@@ -180,7 +219,7 @@ public class GameBoard extends GuiScreen {
      * @param height  Custom Texture Height
      */
     public void setTexture (ResourceLocation texture, int width, int height) {
-        gui = texture;
+    	invaderIm = texture;
         textureWidth = width;
         textureHeight = height;
     }
@@ -233,13 +272,20 @@ public class GameBoard extends GuiScreen {
 
     @Override
     public void drawScreen (int mouseX, int mouseY, float partialTicks) {
-        xScaled = Math.round((width / 2) / scale);
-        yScaled = Math.round((height / 2) / scale);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.scale(scale, scale, scale);
-        this.mc.getTextureManager().bindTexture(gui);
-        this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight);
-        super.drawScreen(mouseX, mouseY, partialTicks);
+//        xScaled = Math.round((width / 2) / scale);
+//        yScaled = Math.round((height / 2) / scale);
+//        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+//        GlStateManager.scale(scale, scale, scale);
+        this.mc.getTextureManager().bindTexture(invaderIm);
+        //this.drawModalRectWithCustomSizedTexture(0, 0, 10, 10, 15, 15, textureWidth, textureHeight);
+        //this.drawModalRectWithCustomSizedTexture(GUI_X, GUI_Y, 10, 10, 15, 15, textureWidth, textureHeight);
+//        this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight);
+////        int boardX = xScaled - (GUI_X / 2) + 5;
+////		int boardY = yScaled - (GUI_Y / 2) + 14;
+//        drawModalRectWithCustomSizedTexture(boardX, boardY, GUI_X, 0, MAZE_X, MAZE_Y, 512, 512);
+//        super.drawScreen(mouseX, mouseY, partialTicks);
+//        int startX = GUI_X + 10;
+        InvadersCreation();
     }
 
 

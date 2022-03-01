@@ -2,9 +2,9 @@
 {
   "modid": "pufferfish",
   "name": "Invader Mod",
-  "description": "Description goes here",
+  "description": "Mod that allows you to play space invaders in minecraft client!!",
   "version": "0.1",
-  "mcversion": "${mcversion}",
+  "mcversion": "1.12",
   "url": "",
   "updateUrl": "",
   "authorList": ["A", "B", "C", "D"],

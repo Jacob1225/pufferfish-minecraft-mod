@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+    
         maven { url = 'https://maven.minecraftforge.net/' }
         mavenCentral()
     }
@@ -19,6 +20,12 @@ archivesBaseName = 'pufferfish'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+repositories {
+    mavenLocal()
+    
+    maven {url = 'https://jitpack.io'}  // mcjunitlib
+}
+
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   Snapshot are built nightly.
@@ -33,6 +40,8 @@ minecraft {
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
+    
+    
     runs {
         client {
             workingDirectory project.file('run')
@@ -52,6 +61,24 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
         }
+        
+        serverTest {
+    		parent runs.server // This run config inherits settings from the server config
+		    workingDirectory project.file('run')
+		    main 'com.alcatrazescapee.mcjunitlib.DedicatedTestServerLauncher' // The main class which launches a customized server which then runs JUnit tests
+		    ideaModule "${project.name}.test" // Tell IDEA to use the classpath of the test module
+		    property 'forge.logging.console.level', 'unittest' // This logging level prevents any other server information messages and leaves only the test output
+		    environment 'MOD_CLASSES', String.join(File.pathSeparator, "pufferfish%%${sourceSets.main.output.resourcesDir}", "pufferfish%%${sourceSets.main.output.classesDirs.asPath}", "pufferfish%%${sourceSets.test.output.resourcesDir}", "pufferfish%%${sourceSets.test.output.classesDirs.asPath}")
+		    environment 'target', 'fmltestserver' // This is a custom service used to launch with ModLauncher's transforming class loader
+		    environment 'targetModId', "pufferfish" // Pass the mod ID directly to mcjunitlib, to find integration test classes from the mod annotation scan data
+		    arg '--crashOnFailedTests' // Optional. Recommended when running in an automated environment. Without it, the server will continue running (and can be connected to via localhost) to inspect why tests failed.
+		    forceExit = false // Optional. Recommended when running in an automated environment, or via the console rather than run configurations. This will allow the task to pass successfully when all tests pass. Use if you see errors along the lines of 'Gradle daemon disappeared unexpectedly'.
+		    mods {
+		        pufferfish {
+		            sources sourceSets.main, sourceSets.test
+		        }
+   	 		}
+		}
     }
 }
 
@@ -60,7 +87,7 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
-
+	testImplementation fg.deobf("com.github.alcatrazEscapee:mcjunitlib:1.0.1-1.12")
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"

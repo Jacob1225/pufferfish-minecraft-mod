@@ -47,6 +47,7 @@ public class GameBoard extends GuiScreen {
     private int cost = 1;
     private boolean enoughCoins = true;
     public boolean canGetCoinBack = true;
+    public int score = 0;
 
     // Constructor Variable
 //    private TileEntityArcade tileEntity;
@@ -240,8 +241,36 @@ public class GameBoard extends GuiScreen {
         this.mc.getTextureManager().bindTexture(gui);
         this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight);
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        this.fontRenderer.drawString(String.format("Score: %d", this.score), 160, 40, Color.white.getRGB());
+        this.fontRenderer.drawString(String.format("Press enter to score up"), 160, 60, Color.white.getRGB());
+        this.fontRenderer.drawString(String.format("Press r to reset"), 160, 70, Color.white.getRGB());
     }
 
+    @Override
+    protected void keyTyped (char typedChar, int keyCode) throws IOException {
+        System.out.println("====keyCode:" + keyCode);
+        //42: spacebar,  28: enter,  19: 'r'
+        if(keyCode == 19){
+            scoreReset();
+            this.fontRenderer.drawString(String.format("Score: %d", this.score), 160, 40, Color.white.getRGB());
+        }
+        if (keyCode == 28) { // Enter, change it to work only when in-game
+            scoreUp(10);
+            System.out.println("new score:" + this.score);
+            this.fontRenderer.drawString(String.format("Score: %d", this.score), 160, 40, Color.white.getRGB());
+        }
+        super.keyTyped(typedChar, keyCode);
+    }
+
+    public void scoreReset(){
+        this.score = 0;
+    }
+
+    public void scoreUp(int upBy){
+        System.out.println("-- score up --");
+        this.score += upBy;
+    }
 
     /**
      * Draw left arrow
@@ -367,18 +396,6 @@ public class GameBoard extends GuiScreen {
     }
 
 
-    /**
-     * Checks if key is pressed.
-     * Use isKeyDown(keyCode), if you want to check if key is held down
-     *
-     * @param typedChar Key Character
-     * @param keyCode Key Code
-     * @throws IOException
-     */
-    @Override
-    protected void keyTyped (char typedChar, int keyCode) throws IOException {
-        super.keyTyped(typedChar, keyCode);
-    }
 
     /**
      * Checks if key is held down

@@ -24,7 +24,6 @@ public class TileEntityArcade extends TileEntity implements ITickable {
     // Sound Variables
     private SoundEvent soundEvent;
     private boolean isPlaying, shouldStart, shouldStop, loop;
-    private float volume = 1f;
 
     // Energy (Default 10 RF/tick)
     private EnergyStorage storage;
@@ -38,39 +37,11 @@ public class TileEntityArcade extends TileEntity implements ITickable {
         playerList = new ArrayList<>();
     }
 
-//    public TileEntityArcade (int game) {
-//        this.game = game;
-//        storage = new EnergyStorage(5000, 1000, 0);
-//        playerList = new ArrayList<>();
-//    }
-
-//    public int getGameID () {
-//        return game;
-//    }
-//
-//    public void setGameID (int id) {
-//        game = id;
-//    }
-
 
     @Override
     public void update () {
     }
 
-    private SoundEvent setSound (ResourceLocation resource) {
-        return SoundEvent.REGISTRY.getObject(resource);
-    }
-
-    public void playSound (ResourceLocation resource, float volume, boolean looping) {
-        loop = looping;
-        shouldStart = true;
-        setVolume(volume);
-        this.soundEvent = setSound(resource);
-    }
-
-    public void setVolume (float volume) {
-        this.volume = volume;
-    }
 
     @Override
     public NBTTagCompound writeToNBT (NBTTagCompound compound) {

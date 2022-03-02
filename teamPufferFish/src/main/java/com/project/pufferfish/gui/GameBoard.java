@@ -26,19 +26,15 @@ public class GameBoard extends GuiScreen {
     public int menuOption = 0;
     public int menu = 0, startMenu = 0;
     public boolean useInternalMenu = true;
-    public boolean editVolume;
-    private float volume = 1.0f;
-    private int iVol = 100;
 
     // GUI Variables
     public int textureWidth = 256, textureHeight = 266;
     private int guiLeft, guiTop;
     private int xSize = 0, ySize = 0;
     private ResourceLocation gui;
-    private GuiButton insertCoin;
     private int buttonX = 0, buttonY = 0;
     public int buttonWidth, buttonHeight = 20;
-    private int[] offset = { 0, 0 };
+    private int[] offset = {0, 0};
     private float scale = 1;
     public int xScaled, yScaled;
     private static final int GUI_X = 234, GUI_Y = 284;
@@ -57,7 +53,7 @@ public class GameBoard extends GuiScreen {
 
     // Arrow Texture
     private static final ResourceLocation arrows = new ResourceLocation(ReferenceData.MODID + "/textures/gui/gui_arrows.png");
-    private static final ResourceLocation generic = new ResourceLocation(ReferenceData.MODID,"textures/gui/gui_background.png");
+    private static final ResourceLocation generic = new ResourceLocation(ReferenceData.MODID, "textures/gui/gui_background.png");
 
     public GameBoard(World world, TileEntity tileEntity, @Nullable BlockPos pos, EntityPlayer player) {
         this.pos = pos;
@@ -77,7 +73,7 @@ public class GameBoard extends GuiScreen {
      * @param width  Width of Texture
      * @param height Height of Texture
      */
-    public void setGuiSize (int width, int height) {
+    public void setGuiSize(int width, int height) {
         xSize = width;
         ySize = height;
     }
@@ -89,7 +85,7 @@ public class GameBoard extends GuiScreen {
      * @param height Height of Texture
      * @param scale  Scale Factor
      */
-    public void setGuiSize (int width, int height, float scale) {
+    public void setGuiSize(int width, int height, float scale) {
         xSize = width;
         ySize = height;
         this.scale = scale;
@@ -100,7 +96,7 @@ public class GameBoard extends GuiScreen {
      *
      * @param scale Scale Factor
      */
-    public void setGuiScale (float scale) {
+    public void setGuiScale(float scale) {
         this.scale = scale;
     }
 
@@ -109,7 +105,7 @@ public class GameBoard extends GuiScreen {
      *
      * @return scale
      */
-    public float getGuiScale () {
+    public float getGuiScale() {
         return scale;
     }
 
@@ -118,58 +114,17 @@ public class GameBoard extends GuiScreen {
      *
      * @param disable True = off, False = on
      */
-    public void disableInternalMenu (boolean disable) {
+    public void disableInternalMenu(boolean disable) {
         useInternalMenu = !disable;
     }
 
-    /**
-     * Set the 'Insert Coin' Button Position.
-     * (0,0) is the top left corner of GUI
-     *
-     * @param x X Position
-     * @param y Y Position
-     */
-    public void setButtonPos (int x, int y) {
-        buttonX = x;
-        buttonY = y;
-    }
-
-    /**
-     * Offsets the text of the Insert Coin Menu.
-     * This will do nothing if useBasicMenu is false
-     *
-     * @param x X Offset
-     * @param y Y Offset
-     */
-    public void setOffset (int x, int y) {
-        offset[0] = x;
-        offset[1] = y;
-    }
-
-    /**
-     * Sets ID of which menu is the Main Menu
-     *
-     * @param startMenu Main Menu ID
-     */
-    public void setStartMenu (int startMenu) {
-        this.startMenu = startMenu;
-    }
-
-    /**
-     * Returns Main Menu ID
-     *
-     * @return Main Menu ID
-     */
-    public int getStartMenu () {
-        return startMenu;
-    }
 
     /**
      * Set GUI Texture
      *
      * @param texture GUI Texture Location
      */
-    public void setTexture (ResourceLocation texture) {
+    public void setTexture(ResourceLocation texture) {
         gui = texture;
     }
 
@@ -180,7 +135,7 @@ public class GameBoard extends GuiScreen {
      * @param width   Custom Texture Width
      * @param height  Custom Texture Height
      */
-    public void setTexture (ResourceLocation texture, int width, int height) {
+    public void setTexture(ResourceLocation texture, int width, int height) {
         gui = texture;
         textureWidth = width;
         textureHeight = height;
@@ -192,7 +147,7 @@ public class GameBoard extends GuiScreen {
      * @param width  Width of Button
      * @param height Height of Button
      */
-    public void setButtonSize (int width, int height) {
+    public void setButtonSize(int width, int height) {
         buttonWidth = width;
         buttonHeight = height;
     }
@@ -203,7 +158,7 @@ public class GameBoard extends GuiScreen {
      *
      * @return world
      */
-    public World getWorld () {
+    public World getWorld() {
         return world;
     }
 
@@ -213,7 +168,7 @@ public class GameBoard extends GuiScreen {
      *
      * @return BlockPos
      */
-    public BlockPos getPos () {
+    public BlockPos getPos() {
         return pos;
     }
 
@@ -223,17 +178,25 @@ public class GameBoard extends GuiScreen {
      *
      * @return EntityPlayer
      */
-    public EntityPlayer getPlayer () {
+    public EntityPlayer getPlayer() {
         return player;
     }
 
     @Override
-    public void updateScreen () {
+    public void updateScreen() {
         if (useTick) tickCounter++;
     }
 
+
+    /**
+     * Draws the Game Board with specific dimensions
+     *
+     * @param mouseX
+     * @param mouseY
+     * @param partialTicks
+     */
     @Override
-    public void drawScreen (int mouseX, int mouseY, float partialTicks) {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         xScaled = Math.round((width / 2) / scale);
         yScaled = Math.round((height / 2) / scale);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -242,16 +205,31 @@ public class GameBoard extends GuiScreen {
         this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight);
         super.drawScreen(mouseX, mouseY, partialTicks);
 
+        displayScore();
+    }
+
+    /**
+     * Displays the score on the board
+     */
+    public void displayScore(){
         this.fontRenderer.drawString(String.format("Score: %d", this.score), 160, 40, Color.white.getRGB());
         this.fontRenderer.drawString(String.format("Press enter to score up"), 160, 60, Color.white.getRGB());
         this.fontRenderer.drawString(String.format("Press r to reset"), 160, 70, Color.white.getRGB());
     }
 
+    /**
+     * Increments score when a key is pressed;
+     * Resets score when another key is pressed
+     *
+     * @param typedChar
+     * @param keyCode
+     * @throws IOException
+     */
     @Override
-    protected void keyTyped (char typedChar, int keyCode) throws IOException {
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
         System.out.println("====keyCode:" + keyCode);
         //42: spacebar,  28: enter,  19: 'r'
-        if(keyCode == 19){
+        if (keyCode == 19) {
             scoreReset();
             this.fontRenderer.drawString(String.format("Score: %d", this.score), 160, 40, Color.white.getRGB());
         }
@@ -263,11 +241,19 @@ public class GameBoard extends GuiScreen {
         super.keyTyped(typedChar, keyCode);
     }
 
-    public void scoreReset(){
+    /**
+     * Resets the score
+     */
+    public void scoreReset() {
         this.score = 0;
     }
 
-    public void scoreUp(int upBy){
+    /**
+     * Increment the score
+     *
+     * @param upBy
+     */
+    public void scoreUp(int upBy) {
         System.out.println("-- score up --");
         this.score += upBy;
     }
@@ -275,28 +261,28 @@ public class GameBoard extends GuiScreen {
     /**
      * Draw left arrow
      */
-    public void drawLeftArrow (int x, int y) {
+    public void drawLeftArrow(int x, int y) {
         drawLeftArrow(x, y, false);
     }
 
     /**
      * Draw right arrow
      */
-    public void drawRightArrow (int x, int y) {
+    public void drawRightArrow(int x, int y) {
         drawRightArrow(x, y, false);
     }
 
     /**
      * Draw up arrow
      */
-    public void drawUpArrow (int x, int y) {
+    public void drawUpArrow(int x, int y) {
         drawUpArrow(x, y, false);
     }
 
     /**
      * Draw down arrow
      */
-    public void drawDownArrow (int x, int y) {
+    public void drawDownArrow(int x, int y) {
         drawDownArrow(x, y, false);
     }
 
@@ -305,7 +291,7 @@ public class GameBoard extends GuiScreen {
      *
      * @param bind call texture manager to bind texture
      */
-    public void drawLeftArrow (int x, int y, boolean bind) {
+    public void drawLeftArrow(int x, int y, boolean bind) {
         if (bind) this.mc.getTextureManager().bindTexture(arrows);
         this.drawModalRectWithCustomSizedTexture(x, y, 7, 0, 7, 11, 128, 128);
     }
@@ -315,7 +301,7 @@ public class GameBoard extends GuiScreen {
      *
      * @param bind call texture manager to bind texture
      */
-    public void drawRightArrow (int x, int y, boolean bind) {
+    public void drawRightArrow(int x, int y, boolean bind) {
         if (bind) this.mc.getTextureManager().bindTexture(arrows);
         this.drawModalRectWithCustomSizedTexture(x, y, 0, 0, 7, 11, 128, 128);
     }
@@ -325,7 +311,7 @@ public class GameBoard extends GuiScreen {
      *
      * @param bind call texture manager to bind texture
      */
-    public void drawUpArrow (int x, int y, boolean bind) {
+    public void drawUpArrow(int x, int y, boolean bind) {
         if (bind) this.mc.getTextureManager().bindTexture(arrows);
         this.drawModalRectWithCustomSizedTexture(x, y, 25, 0, 11, 7, 128, 128);
     }
@@ -335,77 +321,28 @@ public class GameBoard extends GuiScreen {
      *
      * @param bind call texture manager to bind texture
      */
-    public void drawDownArrow (int x, int y, boolean bind) {
+    public void drawDownArrow(int x, int y, boolean bind) {
         if (bind) this.mc.getTextureManager().bindTexture(arrows);
         this.drawModalRectWithCustomSizedTexture(x, y, 14, 0, 11, 7, 128, 128);
     }
 
     @Override
-    public boolean doesGuiPauseGame () {
+    public boolean doesGuiPauseGame() {
         return false;
     }
 
     @Override
-    public void initGui () {
+    public void initGui() {
         super.initGui();
 
         this.guiLeft = Math.round((width / 2) / scale) - (xSize / 2); //(this.width - this.xSize) / 2;
         this.guiTop = Math.round((height / 2) / scale) - (ySize / 2); //(this.height - this.ySize) / 2;
     }
 
-    // TODO: Use it stop all sounds
+    // TODO: Use it stop game
     @Override
-    public void onGuiClosed () {
+    public void onGuiClosed() {
     }
-
-
-    /**
-     * Get separated RGB values of Color
-     *
-     * @return separated RGB values in float array
-     */
-    public float[] colorToFloat (Color color) {
-        float red = Math.round((color.getRed() / 255.0F) * 100.0F) / 100.0F;
-        float green = Math.round((color.getGreen() / 255.0F) * 100.0F) / 100.0F;
-        float blue = Math.round((color.getBlue() / 255.0F) * 100.0F) / 100.0F;
-
-        return new float[] { red, green, blue };
-    }
-
-    /**
-     * Set color of GUI modal with Color rather than RGB values
-     */
-    public void glColor (Color color) {
-        float red = Math.round((color.getRed() / 255.0F) * 100.0F) / 100.0F;
-        float green = Math.round((color.getGreen() / 255.0F) * 100.0F) / 100.0F;
-        float blue = Math.round((color.getBlue() / 255.0F) * 100.0F) / 100.0F;
-
-        GlStateManager.color(red, green, blue);
-    }
-
-    /**
-     * Re-map a number from one range to another
-     */
-    @Deprecated
-    public long map (long in, long inMin, long inMax, long outMin, long outMax) {
-        return (in - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-    }
-
-    public double rand (int min, int max) {
-        return (Math.random() * (max - min)) + min;
-    }
-
-
-
-    /**
-     * Checks if key is held down
-     *
-     * @param keyCode Key Code
-     * @return true if pressed
-     */
-    public boolean isKeyDown (int keyCode) {
-        return Keyboard.isKeyDown(keyCode);
-    }
-
-
 }
+
+

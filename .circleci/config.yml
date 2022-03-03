@@ -37,7 +37,7 @@ jobs:
 
       - run: 
            command: |
-            chmod 700 gradle
+            sudo chmod 700 gradle
             ./gradlew dependencies
       - save_cache:
           paths:
@@ -47,5 +47,5 @@ jobs:
       # run tests!
       - run: 
           command: |
-            chmod 700 gradle
+            sudo chmod 700 gradle
             ./gradlew test

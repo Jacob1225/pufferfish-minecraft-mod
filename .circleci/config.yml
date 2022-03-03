@@ -37,17 +37,15 @@ jobs:
 
       - run: 
            command: |
-            cd teamPufferFish
             chmod 700 gradle
             ./gradlew dependencies
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "teamPufferFish/build.gradle" }}
+          key: v1-dependencies-{{ checksum "build.gradle" }}
 
       # run tests!
       - run: 
           command: |
-            cd teamPufferFish
             chmod 700 gradle
             ./gradlew test

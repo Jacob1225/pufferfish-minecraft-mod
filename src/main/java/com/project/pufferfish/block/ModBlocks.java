@@ -21,6 +21,7 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Invaders.MOD_ID);
 
+    // register arcade machine block
     public static final RegistryObject<Block> ARCADE_MACHINE = registerBlock("arcade_machine",
             () -> new ArcadeMachineBlock(AbstractBlock.Properties.of(Material.DECORATION)));
 

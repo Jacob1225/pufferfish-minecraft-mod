@@ -37,12 +37,6 @@ public class ArcadeMachineContainer extends Container {
         }
     }
 
-    //TODO: implement check for if the user played the game and should receive a price.
-    // possibly merge with method called in ArcadeMachineTile.prizeCheck()
-//    public boolean isArcadeMachineWinner() {
-//        return;
-//    }
-
     @Override
     public boolean stillValid(PlayerEntity playerIn) {
         return stillValid(IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos()),

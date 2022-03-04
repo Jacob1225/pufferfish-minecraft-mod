@@ -1,17 +1,25 @@
 package com.project.pufferfish.block.custom;
 
 import com.project.pufferfish.container.ArcadeMachineContainer;
+//import com.project.pufferfish.screen.InvadersScreen;
 import com.project.pufferfish.tileentity.ArcadeMachineTile;
 import com.project.pufferfish.tileentity.ModTileEntities;
+//import com.project.pufferfish.tileentity.InvadersTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -23,10 +31,34 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
+import static com.project.pufferfish.tileentity.ArcadeMachineTile.getTokenCheck;
+
 public class ArcadeMachineBlock extends Block {
 
+    // blockstate property
+    public static final BooleanProperty PLAYED = BooleanProperty.create("played");
+    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
+
+    // constructor
     public ArcadeMachineBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.defaultBlockState().setValue(PLAYED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+    }
+
+    // create blockstate
+    @Override
+    protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+        builder.add(PLAYED, FACING);
+        super.createBlockStateDefinition(builder);
+
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return defaultBlockState().setValue(PLAYED, false)
+                .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     // right click interaction
@@ -37,20 +69,31 @@ public class ArcadeMachineBlock extends Block {
         if(!worldIn.isClientSide()) {
             TileEntity tileEntity = worldIn.getBlockEntity(pos);
 
-            if(tileEntity instanceof ArcadeMachineTile) {
-                INamedContainerProvider containerProvider = createContainerProvider(worldIn, pos);
+            if (tileEntity instanceof ArcadeMachineTile) {
 
-                NetworkHooks.openGui(((ServerPlayerEntity)player), containerProvider, tileEntity.getBlockPos());
+                // check if a game token was placed into the arcade machine slot
+                ((ArcadeMachineTile) tileEntity).tokenCheck();
+
+                // if token was placed then change arcade machine blockstate into a playable state
+                if (getTokenCheck()) {
+                    worldIn.setBlock(pos, state.setValue(PLAYED, true), 3);
+
+                    // TODO: load invaders GUI
+                    //InvadersTile invadersTileEntity = new InvadersTile();
+                    //Minecraft.getInstance().setScreen(new InvadersScreen(worldIn, invadersTileEntity, null, player));
+
+                    // after playing game, check for prize and set hasToken back to false
+                    //((ArcadeMachineTile) tileEntity).prizeCheck();
+                    //worldIn.setBlock(pos, state.setValue(PLAYED, false), 3);
+
+                }
+                // else, display arcade machine inventory page
+                else {
+                    INamedContainerProvider containerProvider = createContainerProvider(worldIn, pos);
+                    NetworkHooks.openGui(((ServerPlayerEntity)player), containerProvider, tileEntity.getBlockPos());
+                }
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
-            }
-
-            if (tileEntity instanceof ArcadeMachineTile) {
-                // change state if the game has been played
-                //TODO: implement a method, boolean playedGame()
-                if (true) {
-                    ((ArcadeMachineTile) tileEntity).prizeCheck();
-                }
             }
 
         }

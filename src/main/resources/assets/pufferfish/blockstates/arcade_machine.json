@@ -1,5 +1,6 @@
 {
   "variants": {
-    "": { "model":  "pufferfish:block/arcade_machine" }
+    "played=false": { "model":  "pufferfish:block/arcade_machine" },
+    "played=true": { "model":  "pufferfish:block/arcade_machine_played" }
   }
 }

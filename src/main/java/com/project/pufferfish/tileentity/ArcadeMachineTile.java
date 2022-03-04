@@ -16,10 +16,13 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static com.project.pufferfish.block.custom.ArcadeMachineBlock.PLAYED;
+
 public class ArcadeMachineTile extends TileEntity {
 
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
+    private static boolean hasToken;
 
     public ArcadeMachineTile(TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
@@ -91,19 +94,35 @@ public class ArcadeMachineTile extends TileEntity {
         return super.getCapability(cap, side);
     }
 
-    // method for post-game reward
-    public void prizeCheck() {
+    // checks if the player has inserted a token into the arcade machine slot
+    public void tokenCheck() {
         boolean hasFocusInFirstSlot = this.itemHandler.getStackInSlot(0).getCount() > 0
                 && this.itemHandler.getStackInSlot(0).getItem() == ModItems.GAME_TOKEN.get();
+
+        if (hasFocusInFirstSlot) {
+            this.itemHandler.getStackInSlot(0).shrink(1);
+            hasToken = true;
+        }
+        else {
+            hasToken = false;
+        }
+    }
+
+    // helper method of tokenCheck() to return hasToken
+    public static boolean getTokenCheck() {
+        return hasToken;
+    }
+
+    // method for post-game reward
+    public void prizeCheck() {
         // TODO: change to boolean isArcadeMachineWinner() when implemented in ArcadeMachineContainer;
         boolean hasHighScoreForPrize = true;
 
-        // consume game token and leave prize in the same slot
-        if (hasFocusInFirstSlot) {
-            this.itemHandler.getStackInSlot(0).shrink(1);
-        }
-        if (hasFocusInFirstSlot && hasHighScoreForPrize) {
+        // leave prize in the slot if player played and got a high score
+        if (hasHighScoreForPrize) {
             this.itemHandler.insertItem(0, new ItemStack(ModItems.PRIZE_TICKET.get()), false);
         }
+        hasToken = false;
     }
+
 }

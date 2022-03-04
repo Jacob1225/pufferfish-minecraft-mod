@@ -28,9 +28,8 @@ public class ArcadeMachineScreen extends ContainerScreen<ArcadeMachineContainer>
 
         // TODO: implement GuiScreen that will open on button click. Currently null.
         this.addButton(new Button(this.width / 2 - 25, this.topPos + 50, 50, 20,
-                new TranslationTextComponent("PLAY"),
-                (p_213070_1_) -> {this.minecraft.setScreen((Screen)null);
-                    this.minecraft.mouseHandler.grabMouse();}
+                new TranslationTextComponent("INSERT"),
+                (p_213070_1_) -> {this.minecraft.setScreen((Screen)null);}
         ));
     }
 

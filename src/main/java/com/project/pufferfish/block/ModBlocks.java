@@ -2,6 +2,7 @@ package com.project.pufferfish.block;
 
 import com.project.pufferfish.Invaders;
 import com.project.pufferfish.block.custom.ArcadeMachineBlock;
+import com.project.pufferfish.item.ModItemGroup;
 import com.project.pufferfish.item.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -33,7 +34,7 @@ public class ModBlocks {
 
     private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block) {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(),
-                new Item.Properties().tab(ItemGroup.TAB_MISC)));
+                new Item.Properties().tab(ModItemGroup.ARCADE_GROUP)));
     }
 
     public static void register (IEventBus eventBus) {

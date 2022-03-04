@@ -14,10 +14,10 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, Invaders.MOD_ID);
 
     public static final RegistryObject<Item> GAME_TOKEN = ITEMS.register("game_token",
-            () -> new Item(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+            () -> new Item(new Item.Properties().tab(ModItemGroup.ARCADE_GROUP)));
 
     public static final RegistryObject<Item> PRIZE_TICKET = ITEMS.register("prize_ticket",
-            () -> new Item(new Item.Properties().tab(ItemGroup.TAB_MISC)));
+            () -> new Item(new Item.Properties().tab(ModItemGroup.ARCADE_GROUP)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

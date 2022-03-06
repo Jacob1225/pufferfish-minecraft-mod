@@ -2,7 +2,9 @@ package com.project.pufferfish.block.custom;
 
 import com.project.pufferfish.container.ArcadeMachineContainer;
 //import com.project.pufferfish.screen.InvadersScreen;
+import com.project.pufferfish.screen.InvadersScreen;
 import com.project.pufferfish.tileentity.ArcadeMachineTile;
+import com.project.pufferfish.tileentity.InvadersTile;
 import com.project.pufferfish.tileentity.ModTileEntities;
 //import com.project.pufferfish.tileentity.InvadersTile;
 import net.minecraft.block.Block;
@@ -79,8 +81,9 @@ public class ArcadeMachineBlock extends Block {
                     worldIn.setBlock(pos, state.setValue(PLAYED, true), 3);
 
                     // TODO: load invaders GUI
-                    //InvadersTile invadersTileEntity = new InvadersTile();
-                    //Minecraft.getInstance().setScreen(new InvadersScreen(worldIn, invadersTileEntity, null, player));
+                    InvadersTile invadersTileEntity = new InvadersTile();
+                    Minecraft.getInstance().setScreen(new InvadersScreen(false, worldIn, tileEntity, pos, player));
+
 
                     // after playing game, check for prize and set hasToken back to false
                     //((ArcadeMachineTile) tileEntity).prizeCheck();

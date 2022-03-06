@@ -19,6 +19,10 @@ public class InvadersTile extends TileEntity implements ITickable {
         game = 0;
     }
 
+    public InvadersTile() {
+        this(ModTileEntities.INVADERS_TILE.get());
+    }
+
     @Override
     public void tick() {
     }

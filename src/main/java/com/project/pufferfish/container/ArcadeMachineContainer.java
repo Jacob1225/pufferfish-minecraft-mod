@@ -14,12 +14,16 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ArcadeMachineContainer extends Container {
 
     private final TileEntity tileEntity;
     private final PlayerEntity playerEntity;
     private final IItemHandler playerInventory;
+    private static final Logger LOGGER = LogManager.getLogger();
+
 
     public ArcadeMachineContainer(int windowId, World world, BlockPos pos,
                                   PlayerInventory playerInventory, PlayerEntity player) {

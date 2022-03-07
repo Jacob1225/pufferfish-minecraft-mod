@@ -1,12 +1,16 @@
 package com.project.pufferfish;
 
 import com.project.pufferfish.block.ModBlocks;
+
 import com.project.pufferfish.container.ModContainers;
 import com.project.pufferfish.item.ModItems;
 import com.project.pufferfish.screen.ArcadeMachineScreen;
 import com.project.pufferfish.tileentity.ModTileEntities;
+
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -50,7 +54,7 @@ public class Invaders
         eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
         eventBus.addListener(this::doClientStuff);
-
+        
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -60,14 +64,16 @@ public class Invaders
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
-    }
 
+        
+    }
     private void doClientStuff(final FMLClientSetupEvent event) {
         // do something that can only be done on the client
-        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().options);
+//        LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().options);
 
         ScreenManager.register(ModContainers.ARCADE_MACHINE_CONTAINER.get(),
                 ArcadeMachineScreen::new);
+        
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

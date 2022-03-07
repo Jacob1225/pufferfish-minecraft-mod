@@ -16,8 +16,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.project.pufferfish.block.custom.ArcadeMachineBlock.PLAYED;
-
 public class ArcadeMachineTile extends TileEntity {
 
     private final ItemStackHandler itemHandler = createHandler();

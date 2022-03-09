@@ -9,7 +9,7 @@ public class SpaceInvaders {
 	int points;
 	public boolean isAlive;
 	boolean isVisible;
-	boolean movesRight; //Space invaders start by moving to the right
+	public boolean movesRight; //Space invaders start by moving to the right
 	public static AtomicInteger Id=new AtomicInteger(); //giving the invaders a number
 	public int invaderId;
 	
@@ -40,17 +40,20 @@ public class SpaceInvaders {
     //set position
     public void setxpos(int xpos) { this.x = xpos;}
     public void setypos(int ypos) { this.y = ypos;}
-
-    public void invadersMove(List<SpaceInvaders> invaders) { 
-
-    	//constants may go somewhere else 
-    	int MX_ALIEN = 10;//Horizontal movement 
-    	int MY_ALIEN = 20; //Vertical movement
-    	int ALIEN_HEIGHT = 5; 
-    	int ALIEN_WIDTH = 5; 
-    	int BOARD_HEIGHT = 300;//temporary board limits 
-    	int BOARD_WIDTH = 300;//temporary board limits 
-    	int BOARD_MARGIN = 10; //So the alien doesn't go beyond the margins
+    
+    boolean leftReached = false;
+	boolean rightReached = false; 
+	
+	//constants may go somewhere else
+	int MX_ALIEN = 10;//Horizontal movement 
+	int MY_ALIEN = 20; //Vertical movement
+	int ALIEN_HEIGHT = 15; 
+	int ALIEN_WIDTH = 15; 
+	int BOARD_HEIGHT = 400;//temporary board limits 
+	int BOARD_WIDTH = 400;//temporary board limits 
+	int BOARD_MARGIN = 10; //So the alien doesn't go beyond the margins
+	
+    public void invadersMove(List<SpaceInvaders> invaders) {
 
     	if (this.movesRight == true) { //Invaders move to the right
     		for(SpaceInvaders invader: invaders) { 
@@ -59,38 +62,88 @@ public class SpaceInvaders {
     	}
     	else { //Invaders move to the left 
     		for(SpaceInvaders invader: invaders) {
-    			invader.setxpos(invader.getxpos() - MY_ALIEN); 
+    			invader.setxpos(invader.getxpos() - MX_ALIEN); 
     		}
-    	}
+    	}  	
 
     	//To detect borders, go down and then change direction
-    	boolean leftReached = false;
-    	boolean rightReached = false; 
+//    	boolean leftReached = false;
+//    	boolean rightReached = false; 
 
-    	//If left border reached 
+//    	//If left border reached 
+//    	for(SpaceInvaders invader: invaders) { 
+//    		if(isAlive==true && invader.getxpos() < BOARD_MARGIN) { 
+//    			leftReached = true; 
+//    			break; 
+//    		}
+//    	}
+//
+//    	//If right border reached 
+//    	for(SpaceInvaders invader: invaders) { 
+//    		if(isAlive==true && invader.getxpos() > (BOARD_WIDTH -BOARD_MARGIN -ALIEN_WIDTH)) { 
+//    			rightReached = true; 
+//    			break; 
+//    		}
+//    	}
+//
+//    	//Invaders detect borders and go down 
+//    	if (rightReached == true) {
+//    		for(SpaceInvaders invader: invaders) {
+//    			invader.setypos(invader.getypos() + MY_ALIEN); 
+//    		}
+//    		this.movesRight = false; 
+//    	}
+//    	if (leftReached == true) {
+//    		for(SpaceInvaders invader: invaders) { 
+//    			invader.setypos(invader.getypos() + MY_ALIEN);
+//    		}
+//    		this.movesRight = false; 
+//    	}
+    	this.detectBordersGoDown(invaders);
+    }
+    
+//    int moveX, moveY; //for each invader x and y movement
+//    
+//    public void updatePosition() {
+////    	int newPosX = x + moveX;
+////    	int newPosY = y + moveY;
+////    	
+//    	x = getxpos();
+//    	y = getypos();
+//    }
+    
+    private boolean detectLeft(List<SpaceInvaders> invaders) {
+    	boolean detLeft = false;
     	for(SpaceInvaders invader: invaders) { 
     		if(isAlive==true && invader.getxpos() < BOARD_MARGIN) { 
     			leftReached = true; 
     			break; 
     		}
     	}
-
-    	//If right border reached 
+		return detLeft;
+    }
+    
+    private boolean detectRight(List<SpaceInvaders> invaders) {
+    	boolean detRight = false;
     	for(SpaceInvaders invader: invaders) { 
     		if(isAlive==true && invader.getxpos() > (BOARD_WIDTH -BOARD_MARGIN -ALIEN_WIDTH)) { 
     			rightReached = true; 
     			break; 
     		}
     	}
+		return detRight;
+    }
+    
+    public void detectBordersGoDown(List<SpaceInvaders> invaders) {
 
     	//Invaders detect borders and go down 
-    	if (rightReached == true) {
+    	if (detectRight(invaders) == true) {
     		for(SpaceInvaders invader: invaders) {
     			invader.setypos(invader.getypos() + MY_ALIEN); 
     		}
     		this.movesRight = false; 
     	}
-    	if (leftReached == true) {
+    	if (detectLeft(invaders) == true) {
     		for(SpaceInvaders invader: invaders) { 
     			invader.setypos(invader.getypos() + MY_ALIEN);
     		}

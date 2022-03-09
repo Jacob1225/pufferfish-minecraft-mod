@@ -83,9 +83,9 @@ public class GameBoard extends GuiScreen {
         this.fontRenderer = mc.getMinecraft().fontRenderer;
         buttonWidth = this.fontRenderer.getStringWidth(I18n.format("button.pufferfish:insert.locale")) + 6;
         setGuiSize(GUI_X, GUI_Y, 0.8F);
-        //setTexture(generic, 512, 512);
+       // setTexture(generic, 512, 512);
         setTexture(invaderImage, 512, 512);
-        invaderMove(invader,tickCounter);
+     //   invaderMove(invader); //crashes here
         
     }
     public void InvadersCreation() {
@@ -95,20 +95,35 @@ public class GameBoard extends GuiScreen {
 
             	 SpaceInvaders invader=new SpaceInvaders(18 * j, 18 * i,(i+1)*10);
                  invaders.add(invader);
-                 this.drawModalRectWithCustomSizedTexture(GUI_X+18 * j , 18 * i , GUI_X+10, MAZE_Y, 15, 15, 512, 512);//position in the game, position in the image, width/height of the portion wanted, width/height of image 
+                 //this.drawModalRectWithCustomSizedTexture(GUI_X+18 * j , 18 * i , GUI_X+10, MAZE_Y, 15, 15, 512, 512);//position in the game, position in the image, width/height of the portion wanted, width/height of image 
                  //System.out.println("Invader number "+invader.invaderId+" was created");
+//                 invader.invadersMove(invaders);
+//                 drawModalRectWithCustomSizedTexture(invader.getxpos() , invader.getypos() , GUI_X+10, MAZE_Y, 15, 15, 512, 512);
              }
-         } 
+         }
+	}
+    
+    public void drawInvaders() {
+    	 for (SpaceInvaders alien: invaders) {
+    		 //alien.invadersMove(invaders);
+             drawModalRectWithCustomSizedTexture(alien.getxpos(), alien.getypos() , GUI_X+10, MAZE_Y, 15, 15, 512, 512);//position in the game, position in the image, width/height of the portion wanted, width/height of image 
+         }
+    	 //invaderMove();
+	}
+    
+    public void invaderMovement() {
+   	 for (SpaceInvaders invader: invaders) {
+   		 invader.invadersMove(invaders);
+        }
 	}
 
-    public static void invaderMove(SpaceInvaders invader,int count){ //Check if right border is reached 
-		invader.invadersMove(invaders); 
-		if(invader.getxpos() >= GUI_X - GUI_Y - 15) {
-			//System.out.println("Space invaders have reached the right border."); 
-			count++; 
-		} 
-	//System.out.println("Number of times the space invaders have reached the right border: " + count); 
-    }
+//    public static void invaderMove(SpaceInvaders invader){
+//    	for (SpaceInvaders alien: invaders)
+//    		alien.invadersMove(invaders);
+//    		//drawModalRectWithCustomSizedTexture(invader.getxpos(), invader.getypos() , GUI_X+10, MAZE_Y, 15, 15, 512, 512);
+//    	
+//    }
+    
     /**
      * Set the width and height of the GUI Texture
      *
@@ -267,8 +282,16 @@ public class GameBoard extends GuiScreen {
 
     @Override
     public void updateScreen () {
-        if (useTick) tickCounter++;
+        //if (useTick) tickCounter++;
+    	super.updateScreen();
+    	//invader.invadersMove(invaders);
+//        for (SpaceInvaders invader: invaders) {
+//   			 invader.invadersMove(invaders);		 
+//        }
+    	invaderMovement();
+    	//invader.updatePosition();
     }
+    
 
     @Override
     public void drawScreen (int mouseX, int mouseY, float partialTicks) {
@@ -277,15 +300,16 @@ public class GameBoard extends GuiScreen {
 //        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 //        GlStateManager.scale(scale, scale, scale);
         this.mc.getTextureManager().bindTexture(invaderIm);
-        //this.drawModalRectWithCustomSizedTexture(0, 0, 10, 10, 15, 15, textureWidth, textureHeight);
-        //this.drawModalRectWithCustomSizedTexture(GUI_X, GUI_Y, 10, 10, 15, 15, textureWidth, textureHeight);
+//        this.drawModalRectWithCustomSizedTexture(0, 0, 10, 10, 15, 15, textureWidth, textureHeight);
+//        this.drawModalRectWithCustomSizedTexture(GUI_X, GUI_Y, 10, 10, 15, 15, textureWidth, textureHeight);
 //        this.drawModalRectWithCustomSizedTexture(xScaled - (xSize / 2), yScaled - (ySize / 2), 0, 0, xSize, ySize, textureWidth, textureHeight);
-////        int boardX = xScaled - (GUI_X / 2) + 5;
-////		int boardY = yScaled - (GUI_Y / 2) + 14;
+//        int boardX = xScaled - (GUI_X / 2) + 5;
+//		int boardY = yScaled - (GUI_Y / 2) + 14;
 //        drawModalRectWithCustomSizedTexture(boardX, boardY, GUI_X, 0, MAZE_X, MAZE_Y, 512, 512);
-//        super.drawScreen(mouseX, mouseY, partialTicks);
+        super.drawScreen(mouseX, mouseY, partialTicks);
 //        int startX = GUI_X + 10;
-        InvadersCreation();
+       InvadersCreation();
+       drawInvaders();
     }
 
 

@@ -89,7 +89,8 @@ public class GameBoard extends GuiScreen {
         
     }
     public void InvadersCreation() {
-    	invaders=new ArrayList<>();
+    	//invaders=new ArrayList<>();
+    	ArrayList<SpaceInvaders> invaders;
     	 for (int i = 0; i < InvaderRows; i++) {
              for (int j = 0; j < InvaderCols; j++) {
 

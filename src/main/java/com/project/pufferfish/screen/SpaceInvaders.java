@@ -1,5 +1,6 @@
-package SpaceInvaders;
+package com.project.pufferfish.screen;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,6 +38,7 @@ public class SpaceInvaders {
     public int getxpos() { return x;}
     public int getypos() { return y;}
 
+
     //set position
     public void setxpos(int xpos) { this.x = xpos;}
     public void setypos(int ypos) { this.y = ypos;}
@@ -52,19 +54,29 @@ public class SpaceInvaders {
 	int BOARD_HEIGHT = 400;//temporary board limits 
 	int BOARD_WIDTH = 400;//temporary board limits 
 	int BOARD_MARGIN = 10; //So the alien doesn't go beyond the margins
-	
-    public void invadersMove(List<SpaceInvaders> invaders) {
+
+    public void invadersMove() {
 
     	if (this.movesRight == true) { //Invaders move to the right
-    		for(SpaceInvaders invader: invaders) { 
-    			invader.setxpos(invader.getxpos() + MX_ALIEN); 
-    		}
+    			setxpos(getxpos() + MX_ALIEN); 
+    		
     	}
     	else { //Invaders move to the left 
-    		for(SpaceInvaders invader: invaders) {
-    			invader.setxpos(invader.getxpos() - MX_ALIEN); 
-    		}
-    	}  	
+    			setxpos(getxpos() - MX_ALIEN); 
+    	
+    	} 
+//    public void invadersMove(ArrayList<SpaceInvaders> invaders) {
+//
+//    	if (this.movesRight == true) { //Invaders move to the right
+//    		for(SpaceInvaders invader: invaders) { 
+//    			invader.setxpos(invader.getxpos() + MX_ALIEN); 
+//    		}
+//    	}
+//    	else { //Invaders move to the left 
+//    		for(SpaceInvaders invader: invaders) {
+//    			invader.setxpos(invader.getxpos() - MX_ALIEN); 
+//    		}
+//    	}  	
 
     	//To detect borders, go down and then change direction
 //    	boolean leftReached = false;
@@ -99,7 +111,7 @@ public class SpaceInvaders {
 //    		}
 //    		this.movesRight = false; 
 //    	}
-    	this.detectBordersGoDown(invaders);
+    	//this.detectBordersGoDown(invaders);
     }
     
 //    int moveX, moveY; //for each invader x and y movement

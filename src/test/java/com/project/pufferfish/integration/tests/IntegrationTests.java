@@ -21,6 +21,7 @@ import net.minecraft.util.Hand;
 @IntegrationTestClass("arcade_machine_tests")
 public class IntegrationTests {
 	
+	
 	 @IntegrationTest("arcade-machine")
 	 public void testArcadeBlockIsPlaced(IntegrationTestHelper helper)
 	    {	

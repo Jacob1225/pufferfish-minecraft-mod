@@ -26,6 +26,7 @@ public class ActionTests {
         doTest(ModBlocks.ARCADE_MACHINE.get(), ModItems.GAME_TOKEN.get(), false);
     }
 	
+	
 	@Test
     public void testArcadeBreaksWithEmptyHand()
     {

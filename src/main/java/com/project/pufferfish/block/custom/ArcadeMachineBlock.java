@@ -2,7 +2,9 @@ package com.project.pufferfish.block.custom;
 
 import com.project.pufferfish.container.ArcadeMachineContainer;
 //import com.project.pufferfish.screen.InvadersScreen;
+import com.project.pufferfish.screen.InvadersScreen;
 import com.project.pufferfish.tileentity.ArcadeMachineTile;
+import com.project.pufferfish.tileentity.InvadersTile;
 import com.project.pufferfish.tileentity.ModTileEntities;
 //import com.project.pufferfish.tileentity.InvadersTile;
 import net.minecraft.block.Block;
@@ -27,9 +29,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+
+import java.util.Random;
 
 import static com.project.pufferfish.tileentity.ArcadeMachineTile.getTokenCheck;
 
@@ -70,21 +76,16 @@ public class ArcadeMachineBlock extends Block {
             TileEntity tileEntity = worldIn.getBlockEntity(pos);
 
             if (tileEntity instanceof ArcadeMachineTile) {
-
-                // check if a game token was placed into the arcade machine slot
-                ((ArcadeMachineTile) tileEntity).tokenCheck();
-
-                // if token was placed then change arcade machine blockstate into a playable state
+                // if token was placed in arcade machine then open invaders GUI on right click
                 if (getTokenCheck()) {
-                    worldIn.setBlock(pos, state.setValue(PLAYED, true), 3);
 
                     // TODO: load invaders GUI
-                    //InvadersTile invadersTileEntity = new InvadersTile();
-                    //Minecraft.getInstance().setScreen(new InvadersScreen(worldIn, invadersTileEntity, null, player));
+                    InvadersTile invadersTileEntity = new InvadersTile();
+                    Minecraft.getInstance().setScreen(new InvadersScreen(false, worldIn, tileEntity, pos, player));
 
                     // after playing game, check for prize and set hasToken back to false
-                    //((ArcadeMachineTile) tileEntity).prizeCheck();
-                    //worldIn.setBlock(pos, state.setValue(PLAYED, false), 3);
+                    ((ArcadeMachineTile) tileEntity).prizeCheck();
+                    worldIn.setBlock(pos, state.setValue(PLAYED, false), 3);
 
                 }
                 // else, display arcade machine inventory page
@@ -98,6 +99,20 @@ public class ArcadeMachineBlock extends Block {
 
         }
         return ActionResultType.SUCCESS;
+    }
+
+    // regularly check to update blockstate to play state if player inserted token
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick (BlockState state, World worldIn, BlockPos pos, Random rand) {
+        // check if a game token was placed into the arcade machine slot
+        if (!state.getValue(PLAYED)) {
+            TileEntity tileEntity = worldIn.getBlockEntity(pos);
+            ((ArcadeMachineTile) tileEntity).tokenCheck();
+            // if token was placed then change arcade machine blockstate into a playable state
+            if (getTokenCheck()) {
+                worldIn.setBlock(pos, state.setValue(PLAYED, true), 3);
+            }
+        }
     }
 
     private INamedContainerProvider createContainerProvider(World worldIn, BlockPos pos) {

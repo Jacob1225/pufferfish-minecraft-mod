@@ -27,6 +27,7 @@ public class InvadersScreen extends Screen {
     // Gui background (black image)
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
     private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
+    private static final ResourceLocation shotImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/shot.png");
 
     //Gui variables
     public int textureWidth = 256, textureHeight = 266;
@@ -38,8 +39,10 @@ public class InvadersScreen extends Screen {
     
     //Player variables
     public int playerWidth=15, playerHeight=15;
-    Player p = new  Player(textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
+    Player p = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
     
+   
+    Player shot = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
     
     //Display score variables
     MatrixStack matrixStack;
@@ -99,7 +102,15 @@ public class InvadersScreen extends Screen {
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
         this.minecraft.getTextureManager().bind(playerImage);
         this.blit(p_230430_1_, relX+p.getxpos(), relY+p.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
-       //System.out.println(p.getxpos()+"  "+p.getypos());   
+       
+        if (shot.movesUp) {  //display player shot only when space bar is pressed
+        	shot.moveShot();
+        	this.minecraft.getTextureManager().bind(shotImage);
+        	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+        	if (shot.getypos()<10) {
+    			shot.movesUp=false;
+    		}
+        }
         
         displayScore(this.matrixStack);
 
@@ -127,18 +138,22 @@ public class InvadersScreen extends Screen {
      */
     @Override
     public boolean charTyped(char typedChar, int keyCode){
-    	
-    
+    	// move player to left        
     	if (typedChar == 'a') {
     		p.movesLeft= true;
     		movePlayer();
     	}
-    	
+    	// move player to right
     	if (typedChar == 'd') {
     		p.movesRight= true;
     		movePlayer();
     	}
-    	
+    	//space bar for firing a shot
+    	if (typedChar == ' ' ) {
+    		shot.setxpos(p.getxpos());
+    		shot.setypos(p.getypos());
+    		shot.movesUp= true;
+    	}
         if (typedChar == 'r') {
             scoreReset();
             drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
@@ -156,8 +171,9 @@ public class InvadersScreen extends Screen {
     	p.movesRight = false; 
         p.movesLeft = false;
     }
+   
     
-    
+   
 
     /**
      * Resets the score

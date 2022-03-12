@@ -23,7 +23,7 @@ public class ActionTests {
 	@Test
     public void testUsingGameToken()
     {
-        doTest(ModBlocks.ARCADE_MACHINE.get(), ModItems.GAME_TOKEN.get(), true);
+        doTest(ModBlocks.ARCADE_MACHINE.get(), ModItems.GAME_TOKEN.get(), false);
     }
 	
 	

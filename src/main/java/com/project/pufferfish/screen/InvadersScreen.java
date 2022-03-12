@@ -97,9 +97,6 @@ public class InvadersScreen extends Screen {
         assert this.minecraft != null;
         this.minecraft.getTextureManager().bind(background);
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
-
-        
-        // p.movePlayer();
         this.minecraft.getTextureManager().bind(playerImage);
         this.blit(p_230430_1_, relX+p.getxpos(), relY+p.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
        //System.out.println(p.getxpos()+"  "+p.getypos());   
@@ -130,6 +127,18 @@ public class InvadersScreen extends Screen {
      */
     @Override
     public boolean charTyped(char typedChar, int keyCode){
+    	
+    
+    	if (typedChar == 'a') {
+    		p.movesLeft= true;
+    		movePlayer();
+    	}
+    	
+    	if (typedChar == 'd') {
+    		p.movesRight= true;
+    		movePlayer();
+    	}
+    	
         if (typedChar == 'r') {
             scoreReset();
             drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
@@ -141,6 +150,14 @@ public class InvadersScreen extends Screen {
         super.charTyped(typedChar, keyCode);
         return true;
     }
+    
+    public void movePlayer() {
+    	p.movePlayer();
+    	p.movesRight = false; 
+        p.movesLeft = false;
+    }
+    
+    
 
     /**
      * Resets the score

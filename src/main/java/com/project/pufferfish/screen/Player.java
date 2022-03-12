@@ -30,11 +30,12 @@ public class Player {
     }
     
     public void movePlayer() {
-    	
-   	 if (movesRight==true )
+     	//System.out.println("here  "+x);
+   	 if (movesRight==true && x<241)
    			x = x+ speed;
-   	 if (movesLeft==true)
+   	 if (movesLeft==true  && x>4)
    			x = x- speed;
+
     }
     
     

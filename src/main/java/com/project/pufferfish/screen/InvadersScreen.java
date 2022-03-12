@@ -26,6 +26,7 @@ public class InvadersScreen extends Screen {
 
     // Gui background (black image)
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
+    private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
 
     //Gui variables
     public int textureWidth = 256, textureHeight = 266;
@@ -34,6 +35,12 @@ public class InvadersScreen extends Screen {
     int relX = 0;
     int relY = 0;
 
+    
+    //Player variables
+    public int playerWidth=15, playerHeight=15;
+    Player p = new  Player(textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
+    
+    
     //Display score variables
     MatrixStack matrixStack;
     private int score;
@@ -91,6 +98,12 @@ public class InvadersScreen extends Screen {
         this.minecraft.getTextureManager().bind(background);
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
 
+        
+        // p.movePlayer();
+        this.minecraft.getTextureManager().bind(playerImage);
+        this.blit(p_230430_1_, relX+p.getxpos(), relY+p.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+       //System.out.println(p.getxpos()+"  "+p.getypos());   
+        
         displayScore(this.matrixStack);
 
         super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);

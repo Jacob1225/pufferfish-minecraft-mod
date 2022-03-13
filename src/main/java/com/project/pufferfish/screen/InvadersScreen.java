@@ -90,19 +90,50 @@ public class InvadersScreen extends Screen {
         this.minecraft.getTextureManager().bind(background);
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
         for (int i = 0; i < NumberOfInvaders; i++) {
-        this.minecraft.getTextureManager().bind(invaderImage);
-        this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
-        //blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
-            }
+        	this.minecraft.getTextureManager().bind(invaderImage);
+        	this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
+        	//blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
+        	
+        }
         super.render(p_230430_1_, p_230430_2_, p_230430_3_, p_230430_4_);
         invaderMove();
     }
 
     public void invaderMove() {
-      	 for (SpaceInvaders invader: invaders) {
-      		 invader.invadersMove();
-           }
-   	}
+    	boolean leftReached = false;
+    	boolean rightReached = false; 
+
+    	for (int i = 0; i < NumberOfInvaders; i++) {		 
+    		invaders.get(i).invadersMove();
+
+    		//If right border reached 
+    		if( i == 23 && invaders.get(23).getxpos() >= (207)) { 
+    			rightReached = true; 
+    		}
+
+    		//If left border reached 
+    		if(i == 0 && invaders.get(0).getxpos() <= 0) { 
+    			leftReached = true; 
+    		}
+
+    	}
+    	if (rightReached == true) {
+    		for (int j = 0; j < NumberOfInvaders; j++) {
+    			invaders.get(j).setypos(invaders.get(j).getypos() + 10); 
+    			invaders.get(j).movesRight = false; 
+    		}
+    	}
+
+    	if (leftReached == true) {
+    		for (int i = 0; i < NumberOfInvaders; i++) {
+    			invaders.get(i).setypos(invaders.get(i).getypos() + 10);
+    			invaders.get(i).movesRight = true;
+    		}
+    	}
+    }
+
+    
+    
     public boolean isPauseScreen() {
         return false;
     }

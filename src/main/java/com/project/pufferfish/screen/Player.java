@@ -32,6 +32,8 @@ public class Player {
    			x = x+ speed;
    	 	if (movesLeft==true  && x>4)
    			x = x- speed;
+    	movesRight = false; 
+        movesLeft = false;
     }
     
     public void moveShot() {

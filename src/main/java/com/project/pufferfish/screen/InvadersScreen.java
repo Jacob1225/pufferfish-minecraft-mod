@@ -141,15 +141,15 @@ public class InvadersScreen extends Screen {
     	// move player to left        
     	if (typedChar == 'a') {
     		p.movesLeft= true;
-    		movePlayer();
+    		p.movePlayer();
     	}
     	// move player to right
     	if (typedChar == 'd') {
     		p.movesRight= true;
-    		movePlayer();
+    		p.movePlayer();
     	}
     	//space bar for firing a shot
-    	if (typedChar == ' ' ) {
+    	if (typedChar == ' ' && !shot.movesUp) {
     		shot.setxpos(p.getxpos());
     		shot.setypos(p.getypos());
     		shot.movesUp= true;
@@ -166,11 +166,7 @@ public class InvadersScreen extends Screen {
         return true;
     }
     
-    public void movePlayer() {
-    	p.movePlayer();
-    	p.movesRight = false; 
-        p.movesLeft = false;
-    }
+ 
    
     
    

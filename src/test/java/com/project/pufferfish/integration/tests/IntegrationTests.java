@@ -3,19 +3,12 @@ package com.project.pufferfish.integration.tests;
 import com.project.pufferfish.block.ModBlocks;
 import com.project.pufferfish.item.ModItems;
 
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
-
 import com.alcatrazescapee.mcjunitlib.framework.IntegrationTest;
 import com.alcatrazescapee.mcjunitlib.framework.IntegrationTestClass;
 import com.alcatrazescapee.mcjunitlib.framework.IntegrationTestHelper;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.Hand;
 
 
 @IntegrationTestClass("arcade_machine_tests")

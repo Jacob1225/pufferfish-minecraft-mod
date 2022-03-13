@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ContainerTests
 {
+    // unit tests for registration of arcade machine container
     @Test
     public void arcadeMachineContainerTest()
     {

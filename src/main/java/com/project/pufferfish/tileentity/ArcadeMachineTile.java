@@ -16,6 +16,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static com.project.pufferfish.block.custom.ArcadeMachineBlock.PLAYED;
+
 public class ArcadeMachineTile extends TileEntity {
 
     private final ItemStackHandler itemHandler = createHandler();
@@ -98,7 +100,6 @@ public class ArcadeMachineTile extends TileEntity {
                 && this.itemHandler.getStackInSlot(0).getItem() == ModItems.GAME_TOKEN.get();
 
         if (hasFocusInFirstSlot) {
-            this.itemHandler.getStackInSlot(0).shrink(1);
             hasToken = true;
         }
         else {
@@ -111,8 +112,10 @@ public class ArcadeMachineTile extends TileEntity {
         return hasToken;
     }
 
-    // method for post-game reward
+    // method for consumption of token and post-game reward when user plays game
     public void prizeCheck() {
+        this.itemHandler.getStackInSlot(0).shrink(1);
+
         // TODO: change to boolean isArcadeMachineWinner() when implemented in ArcadeMachineContainer;
         boolean hasHighScoreForPrize = true;
 

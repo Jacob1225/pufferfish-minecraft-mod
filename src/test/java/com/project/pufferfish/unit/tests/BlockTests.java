@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BlockTests
 {
+    // unit tests for registration of arcade machine block
     @Test
     public void arcadeMachineBlockTest()
     {

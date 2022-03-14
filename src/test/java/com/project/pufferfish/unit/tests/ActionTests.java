@@ -37,6 +37,18 @@ public class ActionTests {
     {
         doTest(ModBlocks.ARCADE_MACHINE.get(), Items.IRON_SWORD, false);
     }
+
+    @Test
+    public void testArcadeBreaksWoodenPickAxe()
+    {
+        doTest(ModBlocks.ARCADE_MACHINE.get(), Items.WOODEN_PICKAXE, false);
+    }
+
+    @Test
+    public void testArcadeBreaksGoldenPickAxe()
+    {
+        doTest(ModBlocks.ARCADE_MACHINE.get(), Items.DIAMOND_PICKAXE, true);
+    }
 	
 	private void doTest(Block block, Item item, boolean shouldHarvest)
     {

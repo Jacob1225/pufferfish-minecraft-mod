@@ -38,6 +38,7 @@ minecraft {
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
+    
         client {
             workingDirectory project.file('run')
 
@@ -56,6 +57,7 @@ minecraft {
             mods {
                 pufferfish {
                     source sourceSets.main
+              
                 }
             }
         }

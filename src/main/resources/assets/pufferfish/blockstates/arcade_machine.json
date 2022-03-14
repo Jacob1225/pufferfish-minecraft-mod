@@ -1,6 +1,12 @@
 {
   "variants": {
-    "played=false": { "model":  "pufferfish:block/arcade_machine" },
-    "played=true": { "model":  "pufferfish:block/arcade_machine_played" }
+    "played=false,facing=north": { "model":  "pufferfish:block/arcade_machine" },
+    "played=false,facing=south": { "model": "pufferfish:block/arcade_machine", "y": 180 },
+    "played=false,facing=west": { "model": "pufferfish:block/arcade_machine", "y": 270 },
+    "played=false,facing=east": { "model": "pufferfish:block/arcade_machine", "y": 90 },
+    "played=true,facing=north": { "model":  "pufferfish:block/arcade_machine_played" },
+    "played=true,facing=south": { "model": "pufferfish:block/arcade_machine_played", "y": 180 },
+    "played=true,facing=west": { "model": "pufferfish:block/arcade_machine_played", "y": 270 },
+    "played=true,facing=east": { "model": "pufferfish:block/arcade_machine_played", "y": 90 }
   }
 }

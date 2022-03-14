@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -22,9 +23,13 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Invaders.MOD_ID);
 
-    // register arcade machine block
+//    // register arcade machine block
+//    public static final RegistryObject<Block> ARCADE_MACHINE = registerBlock("arcade_machine",
+//            () -> new ArcadeMachineBlock(AbstractBlock.Properties.of(Material.DECORATION)));
+
     public static final RegistryObject<Block> ARCADE_MACHINE = registerBlock("arcade_machine",
-            () -> new ArcadeMachineBlock(AbstractBlock.Properties.of(Material.DECORATION)));
+            () -> new ArcadeMachineBlock(AbstractBlock.Properties.of(Material.DECORATION)
+                    .strength(5f).harvestLevel(2).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()));
 
     private static <T extends Block>RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);

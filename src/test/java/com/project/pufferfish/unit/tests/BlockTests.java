@@ -1,12 +1,14 @@
 package com.project.pufferfish.unit.tests;
 
 import com.project.pufferfish.block.ModBlocks;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BlockTests
 {
+    // unit tests for registration of arcade machine block
     @Test
     public void arcadeMachineBlockTest()
     {
@@ -14,5 +16,5 @@ public class BlockTests
         assertEquals("Block{pufferfish:arcade_machine}", ModBlocks.ARCADE_MACHINE.get().toString());
 
     }
-
+    
 }

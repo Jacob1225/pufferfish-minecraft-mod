@@ -26,7 +26,8 @@ public class InvadersScreen extends Screen {
 
     // Gui background (black image)
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
-    
+    private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
+    private static final ResourceLocation shotImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/shot.png");
     private static final ResourceLocation invaderImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
 
     //Gui variables
@@ -36,6 +37,14 @@ public class InvadersScreen extends Screen {
     int relX = 0;
     int relY = 0;
 
+    
+    //Player variables
+    public int playerWidth=15, playerHeight=15;
+    Player tank = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
+    
+   
+    Player shot = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
+    
     //Display score variables
     MatrixStack matrixStack;
     private int score;
@@ -113,6 +122,19 @@ public class InvadersScreen extends Screen {
         assert this.minecraft != null;
         this.minecraft.getTextureManager().bind(background);
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
+
+        this.minecraft.getTextureManager().bind(playerImage);
+        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+       
+        if (shot.movesUp) {  //display player shot only when space bar is pressed
+        	shot.moveShot();
+        	this.minecraft.getTextureManager().bind(shotImage);
+        	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+        	if (shot.getypos()<10) {
+    			shot.movesUp=false;
+    		 }
+        }
+        
         for (int i = 0; i < NumberOfInvaders; i++) {
         	if(invaders.get(i).isVisible==true) {
         	this.minecraft.getTextureManager().bind(invaderImage);
@@ -120,6 +142,7 @@ public class InvadersScreen extends Screen {
         	//blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
         	}
         }
+      
         displayScore(this.matrixStack);
         invaderMove();
         super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
@@ -190,6 +213,22 @@ public class InvadersScreen extends Screen {
      */
     @Override
     public boolean charTyped(char typedChar, int keyCode){
+    	// move player to left        
+    	if (typedChar == 'a') {
+    		tank.movesLeft= true;
+    		tank.movePlayer();
+    	}
+    	// move player to right
+    	if (typedChar == 'd') {
+    		tank.movesRight= true;
+    		tank.movePlayer();
+    	}
+    	//space bar for firing a shot
+    	if (typedChar == ' ' && !shot.movesUp) {
+    		shot.setxpos(tank.getxpos());
+    		shot.setypos(tank.getypos());
+    		shot.movesUp= true;
+    	}
         if (typedChar == 'r') {
             scoreReset();
             drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
@@ -201,6 +240,11 @@ public class InvadersScreen extends Screen {
         super.charTyped(typedChar, keyCode);
         return true;
     }
+    
+ 
+   
+    
+   
 
     /**
      * Resets the score

@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SpaceInvaders {
 	public int x;
 	public int y;
+	int MX_ALIEN = 1;//Horizontal movement 
+	int MY_ALIEN = 10; //Vertical movement
 	int points;
 	public boolean isAlive;
 	boolean isVisible;
@@ -14,14 +16,6 @@ public class SpaceInvaders {
 	public static AtomicInteger Id=new AtomicInteger(); //giving the invaders a number
 	public int invaderId;
 	
-    public static void main(String[] args)
-    {
-        //System.out.print("here");
-    }
-
-    //public static void updateScreen(array with alien positions) 
-    //score
-    //bomb
     
     //Constructor
     public SpaceInvaders(int xpos,int ypos,int points){
@@ -43,15 +37,7 @@ public class SpaceInvaders {
     public void setxpos(int xpos) { this.x = xpos;}
     public void setypos(int ypos) { this.y = ypos;}
 	
-	//constants may go somewhere else
-	int MX_ALIEN = 1;//Horizontal movement 
-	int MY_ALIEN = 10; //Vertical movement
-	int ALIEN_HEIGHT = 15; 
-	int ALIEN_WIDTH = 15; 
-	int BOARD_HEIGHT = 266-18;//board limits 
-	int BOARD_WIDTH = 256-17;//board limits 
-	int BOARD_MARGIN = 17; //So the alien doesn't go beyond the margins
-    
+	
 	public void invadersMove() {
 
 		if (movesRight == true) { //Invaders move to the right
@@ -64,8 +50,7 @@ public class SpaceInvaders {
 		} 
 	}
 
-	public boolean invaderShot(int xpos,int ypos)
-    {
+	public boolean invaderShot(int xpos,int ypos){
     	//Assuming invaders are 5x5 sized
     	if ((xpos+2 >= x) && (x >=xpos-2) && (ypos+2 >= y) && (y >=ypos-2)){
     		//Kill the invader

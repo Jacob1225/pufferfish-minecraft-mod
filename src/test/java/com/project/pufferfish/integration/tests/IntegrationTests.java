@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 @IntegrationTestClass("arcade_machine_tests")
 public class IntegrationTests {
 	
-	
 	 @IntegrationTest("arcade-machine")
 	 public void testArcadeBlockIsPlaced(IntegrationTestHelper helper)
 	    {	

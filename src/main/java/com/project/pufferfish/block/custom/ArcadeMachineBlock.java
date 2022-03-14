@@ -1,12 +1,9 @@
 package com.project.pufferfish.block.custom;
 
 import com.project.pufferfish.container.ArcadeMachineContainer;
-//import com.project.pufferfish.screen.InvadersScreen;
 import com.project.pufferfish.screen.InvadersScreen;
 import com.project.pufferfish.tileentity.ArcadeMachineTile;
-import com.project.pufferfish.tileentity.InvadersTile;
 import com.project.pufferfish.tileentity.ModTileEntities;
-//import com.project.pufferfish.tileentity.InvadersTile;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -34,6 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 import java.util.Random;
 
@@ -60,6 +58,7 @@ public class ArcadeMachineBlock extends Block {
 
     }
 
+    // set blockstates when user places arcade machine down
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
@@ -78,10 +77,10 @@ public class ArcadeMachineBlock extends Block {
             if (tileEntity instanceof ArcadeMachineTile) {
                 // if token was placed in arcade machine then open invaders GUI on right click
                 if (getTokenCheck()) {
+                	
+                    // opens Invaders screen
+                    openGui(player, worldIn, pos);
 
-                    // TODO: load invaders GUI
-                    InvadersTile invadersTileEntity = new InvadersTile();
-                    Minecraft.getInstance().setScreen(new InvadersScreen(false, worldIn, tileEntity, pos, player));
 
                     // after playing game, check for prize and set hasToken back to false
                     ((ArcadeMachineTile) tileEntity).prizeCheck();
@@ -112,6 +111,16 @@ public class ArcadeMachineBlock extends Block {
             if (getTokenCheck()) {
                 worldIn.setBlock(pos, state.setValue(PLAYED, true), 3);
             }
+        }
+    }
+
+
+    // open Invaders GUI on client-side
+    @OnlyIn(Dist.CLIENT)
+    protected void openGui(PlayerEntity player, World worldIn, BlockPos pos) {
+        final TileEntity tileEntity = worldIn.getBlockEntity(pos);
+        if (tileEntity instanceof ArcadeMachineTile) {
+            Minecraft.getInstance().setScreen(new InvadersScreen(false, worldIn, tileEntity, pos, player));
         }
     }
 

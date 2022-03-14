@@ -14,6 +14,8 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+
 
 
 /**
@@ -24,6 +26,8 @@ public class InvadersScreen extends Screen {
 
     // Gui background (black image)
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
+    
+    private static final ResourceLocation invaderImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
 
     //Gui variables
     public int textureWidth = 256, textureHeight = 266;
@@ -36,6 +40,14 @@ public class InvadersScreen extends Screen {
     MatrixStack matrixStack;
     private int score;
 
+    //Invader variables
+    public int invaderWidth=textureWidth/15, invaderHeight=textureHeight/15;
+    static int InvaderRows=4;
+    static int InvaderCols=6;
+    ArrayList<SpaceInvaders> invaders;
+    SpaceInvaders invader;
+    static int NumberOfInvaders=24;
+    
     //Constructor variables
     private PlayerEntity player;
     private World world;
@@ -55,7 +67,20 @@ public class InvadersScreen extends Screen {
         this.pos = pos;
         this.world = world;
         this.player = player;
+        InvadersCreation();
+        
     }
+    public void InvadersCreation() {
+    	invaders=new ArrayList<>();
+    	
+    	 for (int i = 0; i < InvaderRows; i++) {
+             for (int j = 0; j < InvaderCols; j++) {
+
+            	 SpaceInvaders invader=new SpaceInvaders(18 * j, 70+18 * i,(i+1)*10);
+                 invaders.add(invader);
+             }
+         }
+	}
 
     /**
      * initilizing screen
@@ -88,10 +113,60 @@ public class InvadersScreen extends Screen {
         assert this.minecraft != null;
         this.minecraft.getTextureManager().bind(background);
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
-
+        for (int i = 0; i < NumberOfInvaders; i++) {
+        	if(invaders.get(i).isVisible==true) {
+        	this.minecraft.getTextureManager().bind(invaderImage);
+        	this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
+        	//blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
+        	}
+        }
         displayScore(this.matrixStack);
-
+        invaderMove();
         super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
+    }
+
+    public void invaderMove() {
+    	boolean leftReached = false;
+    	boolean rightReached = false; 
+    	boolean bottomReached = false; 
+
+    	for (int i = 0; i < NumberOfInvaders; i++) {		 
+    		invaders.get(i).invadersMove();
+
+    		//If right border reached 
+    		if( i == 23 && invaders.get(23).getxpos() >= (207)) { 
+    			rightReached = true; 
+    		}
+
+    		//If left border reached 
+    		if(i == 0 && invaders.get(0).getxpos() <= 0) { 
+    			leftReached = true; 
+    		}
+    		
+    		//If left border reached 
+    		if(i == 23 && invaders.get(23).getypos() >= 207) { 
+    			bottomReached = true; 
+    		}
+
+    	}
+    	if (rightReached == true) {
+    		for (int j = 0; j < NumberOfInvaders; j++) {
+    			invaders.get(j).setypos(invaders.get(j).getypos() + 10); 
+    			invaders.get(j).movesRight = false; 
+    		}
+    	}
+
+    	if (leftReached == true) {
+    		for (int i = 0; i < NumberOfInvaders; i++) {
+    			invaders.get(i).setypos(invaders.get(i).getypos() + 10);
+    			invaders.get(i).movesRight = true;
+    		}
+    	}
+    	if (bottomReached == true) {
+    		for (int j = 0; j < NumberOfInvaders; j++) {
+    			invaders.get(j).isVisible=false;
+    		}
+    	}
     }
 
     /**

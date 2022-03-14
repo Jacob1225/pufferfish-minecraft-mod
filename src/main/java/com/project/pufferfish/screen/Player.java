@@ -10,10 +10,6 @@ public class Player {
 	public boolean movesLeft; 
 	public boolean movesUp;
 	
-    public static void main(String[] args)
-    {
-       //	System.out.print("here");
-    }
     
   //Constructor
     public Player(int xpos,int ypos){

@@ -39,7 +39,7 @@ public class InvadersScreen extends Screen {
     
     //Player variables
     public int playerWidth=15, playerHeight=15;
-    Player p = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
+    Player tank = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
     
    
     Player shot = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
@@ -123,7 +123,7 @@ public class InvadersScreen extends Screen {
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
 
         this.minecraft.getTextureManager().bind(playerImage);
-        this.blit(p_230430_1_, relX+p.getxpos(), relY+p.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
        
         if (shot.movesUp) {  //display player shot only when space bar is pressed
         	shot.moveShot();
@@ -131,7 +131,7 @@ public class InvadersScreen extends Screen {
         	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
         	if (shot.getypos()<10) {
     			shot.movesUp=false;
-    		   }
+    		 }
         }
         
         for (int i = 0; i < NumberOfInvaders; i++) {
@@ -214,18 +214,18 @@ public class InvadersScreen extends Screen {
     public boolean charTyped(char typedChar, int keyCode){
     	// move player to left        
     	if (typedChar == 'a') {
-    		p.movesLeft= true;
-    		p.movePlayer();
+    		tank.movesLeft= true;
+    		tank.movePlayer();
     	}
     	// move player to right
     	if (typedChar == 'd') {
-    		p.movesRight= true;
-    		p.movePlayer();
+    		tank.movesRight= true;
+    		tank.movePlayer();
     	}
     	//space bar for firing a shot
     	if (typedChar == ' ' && !shot.movesUp) {
-    		shot.setxpos(p.getxpos());
-    		shot.setypos(p.getypos());
+    		shot.setxpos(tank.getxpos());
+    		shot.setypos(tank.getypos());
     		shot.movesUp= true;
     	}
         if (typedChar == 'r') {

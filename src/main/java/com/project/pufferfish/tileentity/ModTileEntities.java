@@ -17,10 +17,6 @@ public class ModTileEntities {
             TILE_ENTITIES.register("arcade_machine_tile", () -> TileEntityType.Builder.of(
                     ArcadeMachineTile::new, ModBlocks.ARCADE_MACHINE.get()).build(null));
 
-    public static RegistryObject<TileEntityType<InvadersTile>> INVADERS_TILE =
-            TILE_ENTITIES.register("invaders_tile", () -> TileEntityType.Builder.of(
-                    InvadersTile::new, ModBlocks.ARCADE_MACHINE.get()).build(null));
-
     public static void register(IEventBus eventBus) {
         TILE_ENTITIES.register(eventBus);
     }

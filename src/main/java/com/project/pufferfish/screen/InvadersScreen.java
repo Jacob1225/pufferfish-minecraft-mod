@@ -2,27 +2,20 @@ package com.project.pufferfish.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.project.pufferfish.Invaders;
-import com.project.pufferfish.screen.SpaceInvaders;
-import com.project.pufferfish.tileentity.InvadersTile;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * This is the main class for the GUI screen to play the game. It also contains the "score" for the game

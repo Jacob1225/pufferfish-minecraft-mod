@@ -3,7 +3,6 @@ package com.project.pufferfish.block.custom;
 import com.project.pufferfish.container.ArcadeMachineContainer;
 import com.project.pufferfish.screen.InvadersScreen;
 import com.project.pufferfish.tileentity.ArcadeMachineTile;
-import com.project.pufferfish.tileentity.InvadersTile;
 import com.project.pufferfish.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

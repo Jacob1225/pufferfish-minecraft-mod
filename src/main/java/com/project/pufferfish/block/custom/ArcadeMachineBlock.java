@@ -3,6 +3,7 @@ package com.project.pufferfish.block.custom;
 import com.project.pufferfish.container.ArcadeMachineContainer;
 import com.project.pufferfish.screen.InvadersScreen;
 import com.project.pufferfish.tileentity.ArcadeMachineTile;
+import com.project.pufferfish.tileentity.InvadersTile;
 import com.project.pufferfish.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -76,6 +77,7 @@ public class ArcadeMachineBlock extends Block {
                 // if token was placed in arcade machine then open invaders GUI on right click
                 if (getTokenCheck()) {
 
+
                     // opens Invaders screen
                     openGui(player, worldIn, pos);
 
@@ -111,6 +113,7 @@ public class ArcadeMachineBlock extends Block {
         }
     }
 
+
     // open Invaders GUI on client-side
     @OnlyIn(Dist.CLIENT)
     protected void openGui(PlayerEntity player, World worldIn, BlockPos pos) {
@@ -119,6 +122,7 @@ public class ArcadeMachineBlock extends Block {
             Minecraft.getInstance().setScreen(new InvadersScreen(false, worldIn, tileEntity, pos, player));
         }
     }
+
 
     private INamedContainerProvider createContainerProvider(World worldIn, BlockPos pos) {
         return new INamedContainerProvider() {

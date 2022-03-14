@@ -21,15 +21,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ActionTests {
 	
 	@Test
-    public void testUsingGameToken()
+    public void testArcadeBreaksWithEmptyHand()
     {
-        doTest(ModBlocks.ARCADE_MACHINE.get(), ModItems.GAME_TOKEN.get(), true);
+        doTest(ModBlocks.ARCADE_MACHINE.get(), Items.AIR, false);
     }
 	
 	@Test
-    public void testArcadeBreaksWithEmptyHand()
+    public void testArcadeBreaksWithPickAxe()
     {
-        doTest(ModBlocks.ARCADE_MACHINE.get(), Items.AIR, true);
+        doTest(ModBlocks.ARCADE_MACHINE.get(), Items.IRON_PICKAXE, true);
+    }
+	
+	@Test
+    public void testArcadeBreaksWithoutPickAxe()
+    {
+        doTest(ModBlocks.ARCADE_MACHINE.get(), Items.IRON_SWORD, false);
     }
 	
 	private void doTest(Block block, Item item, boolean shouldHarvest)

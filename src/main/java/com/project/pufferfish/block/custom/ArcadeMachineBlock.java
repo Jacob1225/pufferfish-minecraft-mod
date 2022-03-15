@@ -33,6 +33,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nullable;
 import java.util.Random;
 
+
 import static com.project.pufferfish.tileentity.ArcadeMachineTile.getTokenCheck;
 
 public class ArcadeMachineBlock extends Block {

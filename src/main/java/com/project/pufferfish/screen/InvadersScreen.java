@@ -30,6 +30,8 @@ public class InvadersScreen extends Screen {
     private static final ResourceLocation shotImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/shot.png");
     private static final ResourceLocation invaderImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
 
+    
+
     //Gui variables
     public int textureWidth = 256, textureHeight = 266;
     private int xSize = 0, ySize = 0;
@@ -44,7 +46,8 @@ public class InvadersScreen extends Screen {
     
    
     Player shot = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
-    
+    Player bullet = new  Player (textureWidth/2-playerWidth/2,(2*playerHeight));
+
     //Display score variables
     MatrixStack matrixStack;
     private int score;
@@ -123,10 +126,19 @@ public class InvadersScreen extends Screen {
         this.minecraft.getTextureManager().bind(background);
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
 
-        this.minecraft.getTextureManager().bind(playerImage);
-        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+        //tank visible only when it is not hit
+        detectTankHit();
+        if (tank.isVisible) {
+	        this.minecraft.getTextureManager().bind(playerImage);
+	        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+	        }
+        //Demo bullet
+        bullet.movesDown=true;
+        this.minecraft.getTextureManager().bind(shotImage);
+        this.blit(p_230430_1_, relX+bullet.getxpos(), relY+bullet.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
        
-        if (shot.movesUp) {  //display player shot only when space bar is pressed
+      //display player shot only when space bar is pressed
+        if (shot.movesUp) {  
         	shot.moveShot();
         	this.minecraft.getTextureManager().bind(shotImage);
         	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
@@ -145,6 +157,8 @@ public class InvadersScreen extends Screen {
       
         displayScore(this.matrixStack);
         invaderMove();
+        bulletMove();
+
         super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
     }
 
@@ -192,6 +206,22 @@ public class InvadersScreen extends Screen {
     	}
     }
 
+    
+   //Demo bullet
+    public void bulletMove() {
+    	if (bullet.getypos()>255) {
+    		bullet.setypos(0);
+    	}
+        bullet.moveBullet();
+    }
+   
+    public void detectTankHit() {
+     	if ((Math.abs(bullet.getxpos()-tank.getxpos())<1 && bullet.getypos()>236 &&  bullet.getypos()<252) || (Math.abs(bullet.getxpos()-tank.getxpos())<6 && bullet.getypos()>240 &&  bullet.getypos()<252)) {
+     	 tank.isVisible=false;
+     	}
+     	
+    }
+    
     /**
      * Display the score on gui screen
      *
@@ -237,13 +267,10 @@ public class InvadersScreen extends Screen {
             scoreUp(10);
             drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
         }
+        
         super.charTyped(typedChar, keyCode);
         return true;
     }
-    
- 
-   
-    
    
 
     /**

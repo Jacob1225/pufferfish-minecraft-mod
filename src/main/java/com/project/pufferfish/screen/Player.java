@@ -9,6 +9,7 @@ public class Player {
 	public boolean movesRight; 
 	public boolean movesLeft; 
 	public boolean movesUp;
+	public boolean movesDown;
 	
     
   //Constructor
@@ -19,6 +20,7 @@ public class Player {
         this.movesRight = false; 
         this.movesLeft = false; 
         this.movesUp = false; 
+        this.movesDown = false; 
     }
     
     public void movePlayer() {
@@ -34,8 +36,11 @@ public class Player {
     
     public void moveShot() {
     	y = y - speed-1;	
-		
-	 }	 
+	 }
+    
+    public void moveBullet() {
+    	y = y + speed-2;	
+	 }
        
     //get position
     public int getxpos() { return x;}
@@ -46,7 +51,6 @@ public class Player {
     public void setxpos(int xpos) { this.x = xpos;}
     public void setypos(int ypos) { this.y = ypos;}
       
-	public void setisVisible(boolean isVisible) {this.isVisible = isVisible;}
 
 }
 

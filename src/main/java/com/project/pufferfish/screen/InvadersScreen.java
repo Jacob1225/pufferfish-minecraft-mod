@@ -244,17 +244,17 @@ public class InvadersScreen extends Screen {
     @Override
     public boolean charTyped(char typedChar, int keyCode){
     	// move player to left        
-    	if (typedChar == 'a') {
+    	if (typedChar == 'a' || typedChar == 'A') {
     		tank.movesLeft= true;
     		tank.movePlayer();
     	}
     	// move player to right
-    	if (typedChar == 'd') {
+    	if (typedChar == 'd' || typedChar == 'D') {
     		tank.movesRight= true;
     		tank.movePlayer();
     	}
-    	//space bar for firing a shot
-    	if (typedChar == ' ' && !shot.movesUp) {
+    	//space bar for firing a shot only one shot at a time when tank is visible
+    	if (typedChar == ' ' && !shot.movesUp && tank.isVisible) {
     		shot.setxpos(tank.getxpos());
     		shot.setypos(tank.getypos());
     		shot.movesUp= true;

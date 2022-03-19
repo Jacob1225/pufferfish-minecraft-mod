@@ -29,6 +29,8 @@ public class InvadersScreen extends Screen {
     private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
     private static final ResourceLocation shotImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/shot.png");
     private static final ResourceLocation invaderImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
+    private static final ResourceLocation fireImage1 = new ResourceLocation(Invaders.MOD_ID, "textures/gui/tankfire1.png");
+    private static final ResourceLocation fireImage2 = new ResourceLocation(Invaders.MOD_ID, "textures/gui/tankfire2.png");
 
     
 
@@ -43,10 +45,9 @@ public class InvadersScreen extends Screen {
     //Player variables
     public int playerWidth=15, playerHeight=15;
     Player tank = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
-    
-   
     Player shot = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
     Player bullet = new  Player (textureWidth/2-playerWidth/2,(2*playerHeight));
+    int tankOnFire=50;
 
     //Display score variables
     MatrixStack matrixStack;
@@ -132,6 +133,17 @@ public class InvadersScreen extends Screen {
 	        this.minecraft.getTextureManager().bind(playerImage);
 	        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
 	        }
+        
+        else if(tankOnFire>0) {
+        	if(tankOnFire%20<10) {
+        		this.minecraft.getTextureManager().bind(fireImage1);
+        	}
+        	else {
+        		this.minecraft.getTextureManager().bind(fireImage2);
+        	}
+	        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+	        tankOnFire--;
+        }
         //Demo bullet
         bullet.movesDown=true;
         this.minecraft.getTextureManager().bind(shotImage);

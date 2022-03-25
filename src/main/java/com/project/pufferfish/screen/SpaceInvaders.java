@@ -49,17 +49,17 @@ public class SpaceInvaders {
 
 		} 
 	}
-
-	public boolean invaderShot(int xpos,int ypos){
+	
+	public void invaderShot(){
     	//Assuming invaders are 5x5 sized
-    	if ((xpos+2 >= x) && (x >=xpos-2) && (ypos+2 >= y) && (y >=ypos-2)){
+    	//if ((xpos+10 >= x) && (x >=xpos-10) && (ypos+10 >= y) && (y >=ypos-10)){
     		//Kill the invader
     		isAlive=false;
     		isVisible(isAlive);//To make the alien disappear
-    		return true;	
-    	}
+    		//return true;	
+    	//}
     	//score
-    	return false;
+    	//return false;
     }
     
     public boolean isVisible(boolean isAlive) {

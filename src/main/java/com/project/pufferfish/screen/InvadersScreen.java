@@ -137,9 +137,16 @@ public class InvadersScreen extends Screen {
         
         for (int i = 0; i < NumberOfInvaders; i++) {
         	if(invaders.get(i).isVisible==true) {
-        	this.minecraft.getTextureManager().bind(invaderImage);
-        	this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
-        	//blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
+        		this.minecraft.getTextureManager().bind(invaderImage);
+        		this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
+        		//blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
+        		if ((invaders.get(i).getxpos()+invaderWidth/2 > shot.getxpos()) && 
+            			(invaders.get(i).getxpos()-invaderWidth/2 < shot.getxpos()) && 
+            			(invaders.get(i).getypos()+invaderHeight/2 > shot.getypos()) && 
+            			(invaders.get(i).getypos()-invaderHeight/2 < shot.getypos())) {
+            				invaders.get(i).invaderShot();
+            				shot.movesUp = false;
+            	}
         	}
         }
       
@@ -147,7 +154,11 @@ public class InvadersScreen extends Screen {
         invaderMove();
         super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
     }
-
+    
+    
+    /**
+     * Make the aliens move from left to right
+     */
     public void invaderMove() {
     	boolean leftReached = false;
     	boolean rightReached = false; 
@@ -166,7 +177,7 @@ public class InvadersScreen extends Screen {
     			leftReached = true; 
     		}
     		
-    		//If left border reached 
+    		//If bottom border reached 
     		if(i == 23 && invaders.get(23).getypos() >= 207) { 
     			bottomReached = true; 
     		}

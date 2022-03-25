@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 
@@ -43,7 +44,8 @@ public class InvadersScreen extends Screen {
     Player tank = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
     
    
-    Player shot = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
+    Player shot = new  Player ();
+    Player invaderShot = new  Player ();
     
     //Display score variables
     MatrixStack matrixStack;
@@ -56,6 +58,8 @@ public class InvadersScreen extends Screen {
     ArrayList<SpaceInvaders> invaders;
     SpaceInvaders invader;
     static int NumberOfInvaders=24;
+    Random rand = new Random();//So Random spcae invaders can shoot
+
     
     //Constructor variables
     private PlayerEntity player;
@@ -127,28 +131,67 @@ public class InvadersScreen extends Screen {
         this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
        
         if (shot.movesUp) {  //display player shot only when space bar is pressed
-        	shot.moveShot();
+        	shot.moveShotUp();
         	this.minecraft.getTextureManager().bind(shotImage);
         	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
         	if (shot.getypos()<10) {
     			shot.movesUp=false;
     		 }
         }
-        
-        for (int i = 0; i < NumberOfInvaders; i++) {
-        	if(invaders.get(i).isVisible==true) {
-        		this.minecraft.getTextureManager().bind(invaderImage);
-        		this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
-        		//blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
-        		if ((invaders.get(i).getxpos()+invaderWidth/2 > shot.getxpos()) && 
+//        if  (invaderShot.movesDown == false) {
+//			invaderShot.setxpos(invaders.get(1).getxpos());
+//			invaderShot.setypos(invaders.get(1).getypos());
+//			invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
+//			// System.out.println("Invader number "+invader.invaderId+" is shooting");
+//
+//		}
+//		if (invaderShot.movesDown) {  //display player shot only when space bar is pressed
+//			invaderShot.moveShotDown();
+//        	this.minecraft.getTextureManager().bind(shotImage);
+//        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+//        	if (invaderShot.getypos()>textureHeight) {
+//        		invaderShot.movesDown=false;
+//                //randomInvader=rand.nextInt(NumberOfInvaders-1);
+//    		 }
+//        }
+        int randomInvader=rand.nextInt(50*NumberOfInvaders-1);
+		for (int i = 0; i < NumberOfInvaders; i++) {
+			if (invaders.get(i).isVisible == true) {
+				this.minecraft.getTextureManager().bind(invaderImage);
+				this.blit(p_230430_1_, (this.width - textureWidth) / 2 + invaders.get(i).getxpos() + invaderWidth,
+						(this.height - textureHeight) / 2 + invaders.get(i).getypos() + invaderHeight, 0, 0,
+						invaderWidth, invaderHeight, invaderWidth, invaderHeight);
+				// blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown,
+				// height of image shown, x of imported image, y of imported image);
+                if ((invaders.get(i).getxpos()+invaderWidth/2 > shot.getxpos()) && 
             			(invaders.get(i).getxpos()-invaderWidth/2 < shot.getxpos()) && 
             			(invaders.get(i).getypos()+invaderHeight/2 > shot.getypos()) && 
             			(invaders.get(i).getypos()-invaderHeight/2 < shot.getypos())) {
             				invaders.get(i).invaderShot();
             				shot.movesUp = false;
             	}
-        	}
-        }
+			}
+			// Space invader shooting
+			// If there is no bullet being shot (dropped==false) and alien is alive
+			// (isAlive=true)
+			if ((i == randomInvader) && (invaders.get(i).isAlive == true) && (invaders.get(i).isVisible == true) && (invaderShot.movesDown == false)) {
+				invaderShot.setxpos(invaders.get(i).getxpos()+invaderWidth/2);
+				invaderShot.setypos(invaders.get(i).getypos()+invaderHeight);
+				invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
+			}
+			this.minecraft.getTextureManager().bind(shotImage);
+        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+
+			if (invaderShot.movesDown && i%12==0) {  //Move down only once per iteration
+				invaderShot.moveShotDown();
+//	        	this.minecraft.getTextureManager().bind(shotImage);
+//	        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+	        	if (invaderShot.getypos()>textureHeight) {
+	        		invaderShot.movesDown=false;
+	    		 }
+	        }
+
+		}
       
         displayScore(this.matrixStack);
         invaderMove();

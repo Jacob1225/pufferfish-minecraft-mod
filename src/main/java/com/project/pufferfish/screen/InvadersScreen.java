@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.project.pufferfish.Invaders;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -101,6 +102,7 @@ public class InvadersScreen extends Screen {
 
         this.delayTicker = 0;
         this.gamePlay = 0;
+
     }
 
     /**
@@ -109,6 +111,7 @@ public class InvadersScreen extends Screen {
      * @return
      */
     public boolean shouldCloseOnEsc() {
+        this.gamePlay = -1;
         return true;
     }
 
@@ -128,9 +131,12 @@ public class InvadersScreen extends Screen {
 
         //title screen
         if(gamePlay == 0){
+            this.addButton(new Button(this.width / 2 - 90, this.height / 4 + 120, 180, 20, new TranslationTextComponent("Start Game"), (p_213021_1_) -> {
+               this.gamePlay = 1;
+            }));
             this.minecraft.getTextureManager().bind(gametitle);
             this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
-            drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 's' to start").withStyle(TextFormatting.WHITE), 170, 170, 16777215);
+            super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
         }
         //game play
         if(gamePlay == 1){
@@ -159,7 +165,6 @@ public class InvadersScreen extends Screen {
 
             displayScore(this.matrixStack);
             invaderMove();
-            super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
         }
         if(gamePlay == 2){
             //gameover
@@ -169,8 +174,6 @@ public class InvadersScreen extends Screen {
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
         }
-
-
     }
 
     public void invaderMove() {
@@ -239,9 +242,6 @@ public class InvadersScreen extends Screen {
      */
     @Override
     public boolean charTyped(char typedChar, int keyCode){
-        if(gamePlay == 0 && typedChar == 's'){
-            this.gamePlay = 1;
-        }
         if(gamePlay == 1 && typedChar == 'q'){
             this.gamePlay = 2;
         }
@@ -272,11 +272,6 @@ public class InvadersScreen extends Screen {
         super.charTyped(typedChar, keyCode);
         return true;
     }
-    
- 
-   
-    
-   
 
     /**
      * Resets the score

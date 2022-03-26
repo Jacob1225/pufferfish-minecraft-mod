@@ -163,14 +163,16 @@ public class InvadersScreen extends Screen {
 						invaderWidth, invaderHeight, invaderWidth, invaderHeight);
 				// blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown,
 				// height of image shown, x of imported image, y of imported image);
-                if ((invaders.get(i).getxpos()+invaderWidth/2 > shot.getxpos()) && 
-            			(invaders.get(i).getxpos()-invaderWidth/2 < shot.getxpos()) && 
-            			(invaders.get(i).getypos()+invaderHeight/2 > shot.getypos()) && 
-            			(invaders.get(i).getypos()-invaderHeight/2 < shot.getypos())) {
+                if (shot.movesUp==true && (invaders.get(i).getxpos()+invaderWidth > shot.getxpos()) && 
+            			(invaders.get(i).getxpos() < shot.getxpos()) && 
+            			(invaders.get(i).getypos()+invaderHeight > shot.getypos()) && 
+            			(invaders.get(i).getypos() < shot.getypos())) {
             				invaders.get(i).invaderShot();
             				shot.movesUp = false;
+            				scoreUp(invaders.get(i).points);
             	}
 			}
+			
 			// Space invader shooting
 			// If there is no bullet being shot (dropped==false) and alien is alive
 			// (isAlive=true)
@@ -221,7 +223,7 @@ public class InvadersScreen extends Screen {
     		}
     		
     		//If bottom border reached 
-    		if(i == 23 && invaders.get(23).getypos() >= 207) { 
+    		if(invaders.get(i).isVisible == true && invaders.get(i).getypos() >= 207) { 
     			bottomReached = true; 
     		}
 

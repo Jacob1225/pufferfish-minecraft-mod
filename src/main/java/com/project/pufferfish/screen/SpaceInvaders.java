@@ -51,15 +51,8 @@ public class SpaceInvaders {
 	}
 	
 	public void invaderShot(){
-    	//Assuming invaders are 5x5 sized
-    	//if ((xpos+10 >= x) && (x >=xpos-10) && (ypos+10 >= y) && (y >=ypos-10)){
-    		//Kill the invader
-    		isAlive=false;
-    		isVisible(isAlive);//To make the alien disappear
-    		//return true;	
-    	//}
-    	//score
-    	//return false;
+    	isAlive=false;
+    	isVisible(isAlive);//To make the alien disappear
     }
     
     public boolean isVisible(boolean isAlive) {

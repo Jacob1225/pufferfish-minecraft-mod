@@ -244,7 +244,7 @@ public class InvadersScreen extends Screen {
             this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
 
             if (shot.movesUp) {  //display player shot only when space bar is pressed
-                shot.moveShot();
+                shot.moveShotUp();
                 this.minecraft.getTextureManager().bind(shotImage);
                 this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
                 if (shot.getypos()<10) {

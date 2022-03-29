@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.project.pufferfish.Invaders;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -25,6 +26,8 @@ public class InvadersScreen extends Screen {
     private int delayTicker;
 
     // Gui background (black image)
+    private static final ResourceLocation gametitle = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-start2.jpeg");
+    private static final ResourceLocation gameover = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-over.jpeg");
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
     private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
     private static final ResourceLocation shotImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/shot.png");
@@ -67,6 +70,7 @@ public class InvadersScreen extends Screen {
     private PlayerEntity player;
     private World world;
     private BlockPos pos;
+    private int gamePlay;
 
     /**
      * Constructor class for Gui screen
@@ -101,7 +105,10 @@ public class InvadersScreen extends Screen {
      * initilizing screen
      */
     protected void init() {
+
         this.delayTicker = 0;
+        this.gamePlay = 0;
+
     }
 
     /**
@@ -110,6 +117,7 @@ public class InvadersScreen extends Screen {
      * @return
      */
     public boolean shouldCloseOnEsc() {
+        this.gamePlay = -1;
         return true;
     }
 
@@ -126,6 +134,7 @@ public class InvadersScreen extends Screen {
         relX = (this.width - textureWidth) / 2;
         relY = (this.height - textureHeight) / 2;
         assert this.minecraft != null;
+
         this.minecraft.getTextureManager().bind(background);
         this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
 
@@ -215,6 +224,54 @@ public class InvadersScreen extends Screen {
         invaderMove();
 
         super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
+
+
+        //title screen
+        if(gamePlay == 0){
+            this.addButton(new Button(this.width / 2 - 90, this.height / 4 + 120, 180, 20, new TranslationTextComponent("Start Game"), (p_213021_1_) -> {
+               this.gamePlay = 1;
+            }));
+            this.minecraft.getTextureManager().bind(gametitle);
+            this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
+            super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
+        }
+        //game play
+        if(gamePlay == 1){
+            this.minecraft.getTextureManager().bind(background);
+            this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
+
+            this.minecraft.getTextureManager().bind(playerImage);
+            this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+
+            if (shot.movesUp) {  //display player shot only when space bar is pressed
+                shot.moveShot();
+                this.minecraft.getTextureManager().bind(shotImage);
+                this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+                if (shot.getypos()<10) {
+                    shot.movesUp=false;
+                }
+            }
+
+            for (int i = 0; i < NumberOfInvaders; i++) {
+                if(invaders.get(i).isVisible==true) {
+                    this.minecraft.getTextureManager().bind(invaderImage);
+                    this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
+                    //blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
+                }
+            }
+
+            displayScore(this.matrixStack);
+            invaderMove();
+        }
+        if(gamePlay == 2){
+            //gameover
+            this.minecraft.getTextureManager().bind(gameover);
+            this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
+            drawString(p_230430_1_, this.font, new TranslationTextComponent("Game over!").withStyle(TextFormatting.WHITE), 150, 110, 16777215);
+            drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
+            drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
+        }
+
     }
     
     
@@ -284,6 +341,7 @@ public class InvadersScreen extends Screen {
         drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), relX, 10, 16777215);
         drawString(p_230430_1_, this.font, new TranslationTextComponent("Press t to score up").withStyle(TextFormatting.WHITE), relX, 25, 16777215);
         drawString(p_230430_1_, this.font, new TranslationTextComponent("Press r to reset").withStyle(TextFormatting.WHITE), relX, 40, 16777215);
+        drawString(p_230430_1_, this.font, new TranslationTextComponent("Press q to gameover").withStyle(TextFormatting.WHITE), relX, 55, 16777215);
     }
 
     /**
@@ -295,7 +353,11 @@ public class InvadersScreen extends Screen {
      */
     @Override
     public boolean charTyped(char typedChar, int keyCode){
-    	   	
+
+        if(gamePlay == 1 && typedChar == 'q'){
+            this.gamePlay = 2;
+        }
+
         if (typedChar == 'r') {
             scoreReset();
             drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
@@ -308,6 +370,7 @@ public class InvadersScreen extends Screen {
         super.charTyped(typedChar, keyCode);
         return true;
     }
+
     
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
@@ -376,6 +439,7 @@ public class InvadersScreen extends Screen {
     }
 
    
+
 
     /**
      * Resets the score

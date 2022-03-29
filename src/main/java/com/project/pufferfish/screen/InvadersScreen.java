@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 /**
@@ -46,7 +46,8 @@ public class InvadersScreen extends Screen {
     public int playerWidth=15, playerHeight=15;
     Player tank = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
     Player shot = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
-    Player bullet = new  Player (textureWidth/2-playerWidth/2,(2*playerHeight));
+    Player invaderShot = new  Player ();
+
     int tankOnFire=50;
 
     //Display score variables
@@ -60,7 +61,8 @@ public class InvadersScreen extends Screen {
     ArrayList<SpaceInvaders> invaders;
     SpaceInvaders invader;
     static int NumberOfInvaders=24;
-    
+    Random rand = new Random();//So Random spcae invaders can shoot
+ 
     //Constructor variables
     private PlayerEntity player;
     private World world;
@@ -144,36 +146,81 @@ public class InvadersScreen extends Screen {
 	        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
 	        tankOnFire--;
         }
-        //Demo bullet
-        bullet.movesDown=true;
-        this.minecraft.getTextureManager().bind(shotImage);
-        this.blit(p_230430_1_, relX+bullet.getxpos(), relY+bullet.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
-       
-      //display player shot only when space bar is pressed
-        if (shot.movesUp) {  
-        	shot.moveShot();
+        
+      
+        if (shot.movesUp) {  //display player shot only when space bar is pressed
+        	shot.moveShotUp();
         	this.minecraft.getTextureManager().bind(shotImage);
         	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
         	if (shot.getypos()<10) {
     			shot.movesUp=false;
     		 }
         }
-        
-        for (int i = 0; i < NumberOfInvaders; i++) {
-        	if(invaders.get(i).isVisible==true) {
-        	this.minecraft.getTextureManager().bind(invaderImage);
-        	this.blit(p_230430_1_, (this.width - textureWidth) /2 +invaders.get(i).getxpos()+invaderWidth, (this.height - textureHeight) / 2+invaders.get(i).getypos() +invaderHeight, 0,0, invaderWidth, invaderHeight, invaderWidth,invaderHeight);
-        	//blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
-        	}
-        }
+//        if  (invaderShot.movesDown == false) {
+//			invaderShot.setxpos(invaders.get(1).getxpos());
+//			invaderShot.setypos(invaders.get(1).getypos());
+//			invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
+//			// System.out.println("Invader number "+invader.invaderId+" is shooting");
+//
+//		}
+//		if (invaderShot.movesDown) {  //display player shot only when space bar is pressed
+//			invaderShot.moveShotDown();
+//        	this.minecraft.getTextureManager().bind(shotImage);
+//        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+//        	if (invaderShot.getypos()>textureHeight) {
+//        		invaderShot.movesDown=false;
+//                //randomInvader=rand.nextInt(NumberOfInvaders-1);
+//    		 }
+//        }
+        int randomInvader=rand.nextInt(50*NumberOfInvaders-1);
+		for (int i = 0; i < NumberOfInvaders; i++) {
+			if (invaders.get(i).isVisible == true) {
+				this.minecraft.getTextureManager().bind(invaderImage);
+				this.blit(p_230430_1_, (this.width - textureWidth) / 2 + invaders.get(i).getxpos() + invaderWidth,
+						(this.height - textureHeight) / 2 + invaders.get(i).getypos() + invaderHeight, 0, 0,
+						invaderWidth, invaderHeight, invaderWidth, invaderHeight);
+				// blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown,
+				// height of image shown, x of imported image, y of imported image);
+                if ((invaders.get(i).getxpos()+invaderWidth/2 > shot.getxpos()) && 
+            			(invaders.get(i).getxpos()-invaderWidth/2 < shot.getxpos()) && 
+            			(invaders.get(i).getypos()+invaderHeight/2 > shot.getypos()) && 
+            			(invaders.get(i).getypos()-invaderHeight/2 < shot.getypos())) {
+            				invaders.get(i).invaderShot();
+            				shot.movesUp = false;
+            	}
+			}
+			// Space invader shooting
+			// If there is no bullet being shot (dropped==false) and alien is alive
+			// (isAlive=true)
+			if ((i == randomInvader) && (invaders.get(i).isAlive == true) && (invaders.get(i).isVisible == true) && (invaderShot.movesDown == false)) {
+				invaderShot.setxpos(invaders.get(i).getxpos()+invaderWidth/2);
+				invaderShot.setypos(invaders.get(i).getypos()+invaderHeight);
+				invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
+			}
+			this.minecraft.getTextureManager().bind(shotImage);
+        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+
+			if (invaderShot.movesDown && i%12==0) {  //Move down only once per iteration
+				invaderShot.moveShotDown();
+//	        	this.minecraft.getTextureManager().bind(shotImage);
+//	        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+	        	if (invaderShot.getypos()>textureHeight) {
+	        		invaderShot.movesDown=false;
+	    		 }
+	        }
+
+		}
       
         displayScore(this.matrixStack);
         invaderMove();
-        bulletMove();
 
         super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
     }
-
+    
+    
+    /**
+     * Make the aliens move from left to right
+     */
     public void invaderMove() {
     	boolean leftReached = false;
     	boolean rightReached = false; 
@@ -192,7 +239,7 @@ public class InvadersScreen extends Screen {
     			leftReached = true; 
     		}
     		
-    		//If left border reached 
+    		//If bottom border reached 
     		if(i == 23 && invaders.get(23).getypos() >= 207) { 
     			bottomReached = true; 
     		}
@@ -218,17 +265,10 @@ public class InvadersScreen extends Screen {
     	}
     }
 
-    
-   //Demo bullet
-    public void bulletMove() {
-    	if (bullet.getypos()>255) {
-    		bullet.setypos(0);
-    	}
-        bullet.moveBullet();
-    }
+  
    
     public void detectTankHit() {
-     	if ((Math.abs(bullet.getxpos()-tank.getxpos())<1 && bullet.getypos()>236 &&  bullet.getypos()<252) || (Math.abs(bullet.getxpos()-tank.getxpos())<6 && bullet.getypos()>240 &&  bullet.getypos()<252)) {
+     	if ((Math.abs(invaderShot.getxpos()-tank.getxpos())<1 && invaderShot.getypos()>236 &&  invaderShot.getypos()<252) || (Math.abs(invaderShot.getxpos()-tank.getxpos())<6 && invaderShot.getypos()>240 &&  invaderShot.getypos()<252)) {
      	 tank.isVisible=false;
      	}
      	
@@ -255,22 +295,7 @@ public class InvadersScreen extends Screen {
      */
     @Override
     public boolean charTyped(char typedChar, int keyCode){
-    	// move player to left        
-    	if (typedChar == 'a' || typedChar == 'A') {
-    		tank.movesLeft= true;
-    		tank.movePlayer();
-    	}
-    	// move player to right
-    	if (typedChar == 'd' || typedChar == 'D') {
-    		tank.movesRight= true;
-    		tank.movePlayer();
-    	}
-    	//space bar for firing a shot only one shot at a time when tank is visible
-    	if (typedChar == ' ' && !shot.movesUp && tank.isVisible) {
-    		shot.setxpos(tank.getxpos());
-    		shot.setypos(tank.getypos());
-    		shot.movesUp= true;
-    	}
+    	   	
         if (typedChar == 'r') {
             scoreReset();
             drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
@@ -283,6 +308,73 @@ public class InvadersScreen extends Screen {
         super.charTyped(typedChar, keyCode);
         return true;
     }
+    
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        // To prevent recursion when focused is itself and a key is released
+        // To prevent recursion when focused is itself and a key is pressed
+    	if (keyCode == 263 && (keyCode == 32 && !shot.movesUp && tank.isVisible)) {
+    		tank.movesLeft= false;
+    		shot.movesUp= false;
+    	}
+    	// move player to right
+    	if (keyCode == 262 && (keyCode == 32 && !shot.movesUp && tank.isVisible)) {
+    		tank.movesRight= false;
+    		shot.movesUp= false;
+    	}
+    	if (keyCode == 263 ) {
+    		tank.movesLeft= false;
+    	}
+    	// move player to right
+    	if (keyCode == 262) {
+    		tank.movesRight= false;
+    	}
+
+    	//space bar for firing a shot only one shot at a time when tank is visible
+    	if (keyCode == 32 && !shot.movesUp && tank.isVisible) {
+    		shot.movesUp= false;
+    	}
+        return this.getFocused() != this && super.keyReleased(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        // To prevent recursion when focused is itself and a key is pressed
+    	if (keyCode == 263 && (keyCode == 32 && !shot.movesUp && tank.isVisible)) {
+    		tank.movesLeft= true;
+    		tank.movePlayer();
+    		shot.setxpos(tank.getxpos());
+    		shot.setypos(tank.getypos());
+    		shot.movesUp= true;
+    	}
+    	// move player to right
+    	if (keyCode == 262 && (keyCode == 32 && !shot.movesUp && tank.isVisible)) {
+    		tank.movesRight= true;
+    		tank.movePlayer();
+    		shot.setxpos(tank.getxpos());
+    		shot.setypos(tank.getypos());
+    		shot.movesUp= true;
+    	}
+    	
+    	if (keyCode == 263 ) {
+    		tank.movesLeft= true;
+    		tank.movePlayer();
+    	}
+    	// move player to right
+    	if (keyCode == 262) {
+    		tank.movesRight= true;
+    		tank.movePlayer();
+    	}
+    	
+    	//space bar for firing a shot only one shot at a time when tank is visible
+    	if (keyCode == 32 && !shot.movesUp && tank.isVisible) {
+    		shot.setxpos(tank.getxpos());
+    		shot.setypos(tank.getypos());
+    		shot.movesUp= true;
+    	}
+        return this.getFocused() != this && super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
    
 
     /**
@@ -319,6 +411,7 @@ public class InvadersScreen extends Screen {
             }
         }
     }
+
+
+
 }
-
-

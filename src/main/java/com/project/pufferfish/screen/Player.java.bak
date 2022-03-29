@@ -19,16 +19,10 @@ public class Player {
         isVisible=true;
         this.movesRight = false; 
         this.movesLeft = false; 
-        this.movesUp = false;
-        this.movesDown = false;
+        this.movesUp = false; 
+        this.movesDown = false; 
     }
-    public Player(){
-        isVisible=true;
-        this.movesRight = false; 
-        this.movesLeft = false; 
-        this.movesUp = false;
-        this.movesDown = false;
-    }
+    
     public void movePlayer() {
     	
      	//System.out.println("here  "+x);
@@ -40,14 +34,13 @@ public class Player {
         movesLeft = false;
     }
     
-    public void moveShotUp() {
+    public void moveShot() {
     	y = y - speed-1;	
-		
-	 }	
-    public void moveShotDown() {
-    	y = y + speed-1;	
-		
-	 }	
+	 }
+    
+    public void moveBullet() {
+    	y = y + speed-2;	
+	 }
        
     //get position
     public int getxpos() { return x;}
@@ -58,7 +51,6 @@ public class Player {
     public void setxpos(int xpos) { this.x = xpos;}
     public void setypos(int ypos) { this.y = ypos;}
       
-	public void setisVisible(boolean isVisible) {this.isVisible = isVisible;}
 
 }
 

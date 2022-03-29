@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 
@@ -29,8 +30,12 @@ public class InvadersScreen extends Screen {
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
     private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
     private static final ResourceLocation shotImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/shot.png");
-    private static final ResourceLocation invaderImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
+    private static final ResourceLocation invaderImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader1.png");
+    private static final ResourceLocation invader2Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
 
+    private static final ResourceLocation invader3Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader3.png");
+    private static final ResourceLocation invader4Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader4.png");
+    
     //Gui variables
     public int textureWidth = 256, textureHeight = 266;
     private int xSize = 0, ySize = 0;
@@ -58,9 +63,8 @@ public class InvadersScreen extends Screen {
     ArrayList<SpaceInvaders> invaders;
     SpaceInvaders invader;
     static int NumberOfInvaders=24;
-    Random rand = new Random();//So Random spcae invaders can shoot
-
-    
+    Random rand = new Random();//So Random space invaders can shoot
+   
     //Constructor variables
     private PlayerEntity player;
     private World world;
@@ -85,12 +89,12 @@ public class InvadersScreen extends Screen {
     }
     public void InvadersCreation() {
     	invaders=new ArrayList<>();
-    	
-    	 for (int i = 0; i < InvaderRows; i++) {
+    	int invaderId=0;
+    	 for (int i = 0; i < InvaderRows; i++) {//i=0 is the last row
              for (int j = 0; j < InvaderCols; j++) {
-
-            	 SpaceInvaders invader=new SpaceInvaders(18 * j, 70+18 * i,(i+1)*10);
+            	 SpaceInvaders invader=new SpaceInvaders(20 * j, 70+20 * i,(j+1)*10,invaderId);
                  invaders.add(invader);
+                 invaderId++;
              }
          }
 	}
@@ -157,14 +161,23 @@ public class InvadersScreen extends Screen {
         int randomInvader=rand.nextInt(50*NumberOfInvaders-1);
 		for (int i = 0; i < NumberOfInvaders; i++) {
 			if (invaders.get(i).isVisible == true) {
-				this.minecraft.getTextureManager().bind(invaderImage);
+				if (invaders.get(i).invaderId>=0 && invaders.get(i).invaderId<7)
+				{this.minecraft.getTextureManager().bind(invaderImage);}
+				else if (invaders.get(i).invaderId>6 && invaders.get(i).invaderId<13)
+				{this.minecraft.getTextureManager().bind(invader2Image);}
+				else if (invaders.get(i).invaderId>12 && invaders.get(i).invaderId<19)
+				{this.minecraft.getTextureManager().bind(invader3Image);}
+				else if (invaders.get(i).invaderId>18 && invaders.get(i).invaderId<25)
+				{this.minecraft.getTextureManager().bind(invader4Image);}
+				else {drawString(p_230430_1_, this.font, new TranslationTextComponent(" ").append((new StringTextComponent(Integer.toString(invaders.get(i).invaderId)).withStyle(TextFormatting.WHITE))), relX, 10, 16777215);}
+				
 				this.blit(p_230430_1_, (this.width - textureWidth) / 2 + invaders.get(i).getxpos() + invaderWidth,
 						(this.height - textureHeight) / 2 + invaders.get(i).getypos() + invaderHeight, 0, 0,
 						invaderWidth, invaderHeight, invaderWidth, invaderHeight);
 				// blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown,
 				// height of image shown, x of imported image, y of imported image);
-                if (shot.movesUp==true && (invaders.get(i).getxpos()+invaderWidth > shot.getxpos()) && 
-            			(invaders.get(i).getxpos() < shot.getxpos()) && 
+                if (shot.movesUp==true && (invaders.get(i).getxpos()+2*invaderWidth>shot.getxpos()) && 
+            			(invaders.get(i).getxpos()+invaderWidth < shot.getxpos()+2) && 
             			(invaders.get(i).getypos()+invaderHeight > shot.getypos()) && 
             			(invaders.get(i).getypos() < shot.getypos())) {
             				invaders.get(i).invaderShot();
@@ -181,13 +194,13 @@ public class InvadersScreen extends Screen {
 				invaderShot.setypos(invaders.get(i).getypos()+invaderHeight);
 				invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
 			}
-			this.minecraft.getTextureManager().bind(shotImage);
-        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+			//this.minecraft.getTextureManager().bind(shotImage);
+        	//this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
 
 			if (invaderShot.movesDown && i%12==0) {  //Move down only once per iteration
 				invaderShot.moveShotDown();
-//	        	this.minecraft.getTextureManager().bind(shotImage);
-//	        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+	        	this.minecraft.getTextureManager().bind(shotImage);
+	        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
 	        	if (invaderShot.getypos()>textureHeight) {
 	        		invaderShot.movesDown=false;
 	    		 }

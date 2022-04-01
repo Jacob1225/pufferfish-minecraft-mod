@@ -142,22 +142,7 @@ public class InvadersScreen extends Screen {
     			shot.movesUp=false;
     		 }
         }
-//        if  (invaderShot.movesDown == false) {
-//			invaderShot.setxpos(invaders.get(1).getxpos());
-//			invaderShot.setypos(invaders.get(1).getypos());
-//			invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
-//			// System.out.println("Invader number "+invader.invaderId+" is shooting");
-//
-//		}
-//		if (invaderShot.movesDown) {  //display player shot only when space bar is pressed
-//			invaderShot.moveShotDown();
-//        	this.minecraft.getTextureManager().bind(shotImage);
-//        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
-//        	if (invaderShot.getypos()>textureHeight) {
-//        		invaderShot.movesDown=false;
-//                //randomInvader=rand.nextInt(NumberOfInvaders-1);
-//    		 }
-//        }
+        
         int randomInvader=rand.nextInt(50*NumberOfInvaders-1);
 		for (int i = 0; i < NumberOfInvaders; i++) {
 			if (invaders.get(i).isVisible == true) {
@@ -308,12 +293,7 @@ public class InvadersScreen extends Screen {
         }
         super.charTyped(typedChar, keyCode);
         return true;
-    }
-    
- 
-   
-    
-   
+    }   
 
     /**
      * Resets the score
@@ -350,5 +330,3 @@ public class InvadersScreen extends Screen {
         }
     }
 }
-
-

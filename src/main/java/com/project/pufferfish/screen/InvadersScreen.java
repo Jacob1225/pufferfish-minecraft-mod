@@ -36,7 +36,6 @@ public class InvadersScreen extends Screen {
     private static final ResourceLocation shotImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/shot.png");
     private static final ResourceLocation invaderImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader1.png");
     private static final ResourceLocation invader2Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
-
     private static final ResourceLocation invader3Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader3.png");
     private static final ResourceLocation invader4Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader4.png");
     
@@ -133,81 +132,13 @@ public class InvadersScreen extends Screen {
         relX = (this.width - textureWidth) / 2;
         relY = (this.height - textureHeight) / 2;
         assert this.minecraft != null;
-        this.minecraft.getTextureManager().bind(background);
-        this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
-
-        this.minecraft.getTextureManager().bind(playerImage);
-        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
-       
-        if (shot.movesUp) {  //display player shot only when space bar is pressed
-        	shot.moveShotUp();
-        	this.minecraft.getTextureManager().bind(shotImage);
-        	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
-        	if (shot.getypos()<10) {
-    			shot.movesUp=false;
-    		 }
-        }
-        
-        int randomInvader=rand.nextInt(50*NumberOfInvaders-1);
-		for (int i = 0; i < NumberOfInvaders; i++) {
-			if (invaders.get(i).isVisible == true) {
-				if (invaders.get(i).invaderId>=0 && invaders.get(i).invaderId<7)
-				{this.minecraft.getTextureManager().bind(invaderImage);}
-				else if (invaders.get(i).invaderId>6 && invaders.get(i).invaderId<13)
-				{this.minecraft.getTextureManager().bind(invader2Image);}
-				else if (invaders.get(i).invaderId>12 && invaders.get(i).invaderId<19)
-				{this.minecraft.getTextureManager().bind(invader3Image);}
-				else if (invaders.get(i).invaderId>18 && invaders.get(i).invaderId<25)
-				{this.minecraft.getTextureManager().bind(invader4Image);}
-				else {drawString(p_230430_1_, this.font, new TranslationTextComponent(" ").append((new StringTextComponent(Integer.toString(invaders.get(i).invaderId)).withStyle(TextFormatting.WHITE))), relX, 10, 16777215);}
-				
-				this.blit(p_230430_1_, (this.width - textureWidth) / 2 + invaders.get(i).getxpos() + invaderWidth,
-						(this.height - textureHeight) / 2 + invaders.get(i).getypos() + invaderHeight, 0, 0,
-						invaderWidth, invaderHeight, invaderWidth, invaderHeight);
-				// blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown,
-				// height of image shown, x of imported image, y of imported image);
-                if (shot.movesUp==true && (invaders.get(i).getxpos()+2*invaderWidth>shot.getxpos()) && 
-            			(invaders.get(i).getxpos()+invaderWidth < shot.getxpos()+2) && 
-            			(invaders.get(i).getypos()+invaderHeight > shot.getypos()) && 
-            			(invaders.get(i).getypos() < shot.getypos())) {
-            				invaders.get(i).invaderShot();
-            				shot.movesUp = false;
-            				scoreUp(invaders.get(i).points);
-            	}
-			}
-			
-			// Space invader shooting
-			// If there is no bullet being shot (dropped==false) and alien is alive
-			// (isAlive=true)
-			if ((i == randomInvader) && (invaders.get(i).isAlive == true) && (invaders.get(i).isVisible == true) && (invaderShot.movesDown == false)) {
-				invaderShot.setxpos(invaders.get(i).getxpos()+invaderWidth/2);
-				invaderShot.setypos(invaders.get(i).getypos()+invaderHeight);
-				invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
-			}
-			//this.minecraft.getTextureManager().bind(shotImage);
-        	//this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
-
-			if (invaderShot.movesDown && i%12==0) {  //Move down only once per iteration
-				invaderShot.moveShotDown();
-	        	this.minecraft.getTextureManager().bind(shotImage);
-	        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
-	        	if (invaderShot.getypos()>textureHeight) {
-	        		invaderShot.movesDown=false;
-	    		 }
-	        }
-
-		}
-      
-        displayScore(this.matrixStack);
-        invaderMove();
-        super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
 
         //title screen
         if(gamePlay == 0){
             this.addButton(new Button(this.width / 2 - 90, this.height / 4 + 120, 180, 20, new TranslationTextComponent("Start Game"), (p_213021_1_) -> {
                this.gamePlay = 1;
             }));
-            this.minecraft.getTextureManager().bind(gametitle);
+            this.minecraft.getTextureManager().bind(background);
             this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
             super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
         }
@@ -218,24 +149,66 @@ public class InvadersScreen extends Screen {
                 this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
 
                 this.minecraft.getTextureManager().bind(playerImage);
-                this.blit(p_230430_1_, relX + tank.getxpos(), relY + tank.getypos(), 0, 0, playerWidth, playerHeight, playerWidth, playerHeight);
+                this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
 
                 if (shot.movesUp) {  //display player shot only when space bar is pressed
-                    shot.moveShot();
-                    this.minecraft.getTextureManager().bind(shotImage);
-                    this.blit(p_230430_1_, relX + shot.getxpos(), relY + shot.getypos(), 0, 0, playerWidth, playerHeight, playerWidth, playerHeight);
-                    if (shot.getypos() < 10) {
-                        shot.movesUp = false;
-                    }
+                	shot.moveShotUp();
+                	this.minecraft.getTextureManager().bind(shotImage);
+                	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+                	if (shot.getypos()<10) {
+            			shot.movesUp=false;
+            		 }
                 }
 
-                for (int i = 0; i < NumberOfInvaders; i++) {
-                    if (invaders.get(i).isVisible == true) {
-                        this.minecraft.getTextureManager().bind(invaderImage);
-                        this.blit(p_230430_1_, (this.width - textureWidth) / 2 + invaders.get(i).getxpos() + invaderWidth, (this.height - textureHeight) / 2 + invaders.get(i).getypos() + invaderHeight, 0, 0, invaderWidth, invaderHeight, invaderWidth, invaderHeight);
-                        //blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown, height of image shown, x of imported image, y of imported image);
-                    }
-                }
+                int randomInvader=rand.nextInt(50*NumberOfInvaders-1);
+        		for (int i = 0; i < NumberOfInvaders; i++) {
+        			if (invaders.get(i).isVisible == true) {
+        				if (invaders.get(i).invaderId>=0 && invaders.get(i).invaderId<7)
+        				{this.minecraft.getTextureManager().bind(invaderImage);}
+        				else if (invaders.get(i).invaderId>6 && invaders.get(i).invaderId<13)
+        				{this.minecraft.getTextureManager().bind(invader2Image);}
+        				else if (invaders.get(i).invaderId>12 && invaders.get(i).invaderId<19)
+        				{this.minecraft.getTextureManager().bind(invader3Image);}
+        				else if (invaders.get(i).invaderId>18 && invaders.get(i).invaderId<25)
+        				{this.minecraft.getTextureManager().bind(invader4Image);}
+        				else {drawString(p_230430_1_, this.font, new TranslationTextComponent(" ").append((new StringTextComponent(Integer.toString(invaders.get(i).invaderId)).withStyle(TextFormatting.WHITE))), relX, 10, 16777215);}
+        				
+        				this.blit(p_230430_1_, (this.width - textureWidth) / 2 + invaders.get(i).getxpos() + invaderWidth,
+        						(this.height - textureHeight) / 2 + invaders.get(i).getypos() + invaderHeight, 0, 0,
+        						invaderWidth, invaderHeight, invaderWidth, invaderHeight);
+        				// blit(x, y, this.blitOffset, (float) u, (float) v, width of image shown,
+        				// height of image shown, x of imported image, y of imported image);
+                        if (shot.movesUp==true && (invaders.get(i).getxpos()+2*invaderWidth>shot.getxpos()) && 
+                    			(invaders.get(i).getxpos()+invaderWidth < shot.getxpos()+2) && 
+                    			(invaders.get(i).getypos()+invaderHeight > shot.getypos()) && 
+                    			(invaders.get(i).getypos() < shot.getypos())) {
+                    				invaders.get(i).invaderShot();
+                    				shot.movesUp = false;
+                    				scoreUp(invaders.get(i).points);
+                    	}
+        			}
+        			
+        			// Space invader shooting
+        			// If there is no bullet being shot (dropped==false) and alien is alive
+        			// (isAlive=true)
+        			if ((i == randomInvader) && (invaders.get(i).isAlive == true) && (invaders.get(i).isVisible == true) && (invaderShot.movesDown == false)) {
+        				invaderShot.setxpos(invaders.get(i).getxpos()+invaderWidth/2);
+        				invaderShot.setypos(invaders.get(i).getypos()+invaderHeight);
+        				invaderShot.movesDown = true;// set back to false once bullet has reached target or left the board
+        			}
+        			//this.minecraft.getTextureManager().bind(shotImage);
+                	//this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+
+        			if (invaderShot.movesDown && i%12==0) {  //Move down only once per iteration
+        				invaderShot.moveShotDown();
+        	        	this.minecraft.getTextureManager().bind(shotImage);
+        	        	this.blit(p_230430_1_, relX+invaderShot.getxpos(), relY+invaderShot.getypos(),0,0,invaderWidth,invaderHeight,invaderWidth,invaderHeight);
+        	        	if (invaderShot.getypos()>textureHeight) {
+        	        		invaderShot.movesDown=false;
+        	    		 }
+        	        }
+
+        		}
                 displayScore(this.matrixStack);
                 invaderMove();
             }

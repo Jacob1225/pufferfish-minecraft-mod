@@ -7,25 +7,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SpaceInvaders {
 	public int x;
 	public int y;
+	public int invaderId;
 	int MX_ALIEN = 1;//Horizontal movement 
 	int MY_ALIEN = 10; //Vertical movement
 	int points;
 	public boolean isAlive;
 	boolean isVisible;
 	public boolean movesRight; //Space invaders start by moving to the right
-	public static AtomicInteger Id=new AtomicInteger(); //giving the invaders a number
-	public int invaderId;
+
 	
     
     //Constructor
-    public SpaceInvaders(int xpos,int ypos,int points){
+    public SpaceInvaders(int xpos,int ypos,int points, int invaderId){
         this.x=xpos;
         this.y=ypos;
         this.points=points;
         isAlive=true;
         isVisible=true;
         this.movesRight = true; //Space invaders start by moving to the right
-        this.invaderId=Id.incrementAndGet();
+        this.invaderId=invaderId;
     }
     
     //get position
@@ -49,17 +49,10 @@ public class SpaceInvaders {
 
 		} 
 	}
-
-	public boolean invaderShot(int xpos,int ypos){
-    	//Assuming invaders are 5x5 sized
-    	if ((xpos+2 >= x) && (x >=xpos-2) && (ypos+2 >= y) && (y >=ypos-2)){
-    		//Kill the invader
-    		isAlive=false;
-    		isVisible(isAlive);//To make the alien disappear
-    		return true;	
-    	}
-    	//score
-    	return false;
+	
+	public void invaderShot(){
+    	isAlive=false;
+    	isVisible(isAlive);//To make the alien disappear
     }
     
     public boolean isVisible(boolean isAlive) {

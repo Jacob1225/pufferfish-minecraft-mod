@@ -38,6 +38,8 @@ public class InvadersScreen extends Screen {
     private static final ResourceLocation invader2Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader2.png");
     private static final ResourceLocation invader3Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader3.png");
     private static final ResourceLocation invader4Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader4.png");
+    private static final ResourceLocation fireImage1 = new ResourceLocation(Invaders.MOD_ID, "textures/gui/tankfire1.png");
+    private static final ResourceLocation fireImage2 = new ResourceLocation(Invaders.MOD_ID, "textures/gui/tankfire2.png"); 
     
     //Gui variables
     public int textureWidth = 256, textureHeight = 266;
@@ -51,9 +53,10 @@ public class InvadersScreen extends Screen {
     //Player variables
     public int playerWidth=15, playerHeight=15;
     Player tank = new  Player (textureWidth/2-playerWidth/2,textureHeight-(2*playerHeight));
-   
     Player shot = new  Player ();
     Player invaderShot = new  Player ();
+    int tankOnFire=50; //animation variable
+
     
     //Display score variables
     MatrixStack matrixStack;
@@ -143,15 +146,35 @@ public class InvadersScreen extends Screen {
             super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
         }
         //game play
-        if(gamePlay == 1){
+        else if(gamePlay == 1){
             if(!this.isPaused) {
                 this.minecraft.getTextureManager().bind(background);
                 this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
 
-                this.minecraft.getTextureManager().bind(playerImage);
-                this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
-
-                if (shot.movesUp) {  //display player shot only when space bar is pressed
+                               
+              //tank visible only when it is not hit
+                detectTankHit();
+                if (tank.isVisible) {
+        	        this.minecraft.getTextureManager().bind(playerImage);
+        	        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+        	        }
+                
+                else if(tankOnFire>-1) {
+                	if(tankOnFire%20<10) {
+                		this.minecraft.getTextureManager().bind(fireImage1);
+                	}
+                	else {
+                		this.minecraft.getTextureManager().bind(fireImage2);
+                	}
+        	        this.blit(p_230430_1_, relX+tank.getxpos(), relY+tank.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+        	        tankOnFire--;
+        	        if (tankOnFire<0) {
+        	        	gamePlay = 2;    
+        	        }
+                }
+                
+              //tank shot only when space bar is pressed
+                if (shot.movesUp) {  
                 	shot.moveShotUp();
                 	this.minecraft.getTextureManager().bind(shotImage);
                 	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
@@ -159,7 +182,8 @@ public class InvadersScreen extends Screen {
             			shot.movesUp=false;
             		 }
                 }
-
+                
+                
                 int randomInvader=rand.nextInt(50*NumberOfInvaders-1);
         		for (int i = 0; i < NumberOfInvaders; i++) {
         			if (invaders.get(i).isVisible == true) {
@@ -211,6 +235,10 @@ public class InvadersScreen extends Screen {
         		}
                 displayScore(this.matrixStack);
                 invaderMove();
+                invaderAlive();
+                if(!invaderAlive()){
+                	gamePlay = 3;
+                }
             }
 
             //Pause screen
@@ -223,14 +251,23 @@ public class InvadersScreen extends Screen {
 
             }
         }
-        //gameover
-        if(gamePlay == 2){
+        //gameover loosing
+        else if(gamePlay == 2){
             this.minecraft.getTextureManager().bind(gameover);
             this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Game over!").withStyle(TextFormatting.WHITE), 150, 110, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
         }
+      //gameover winning 
+        else if(gamePlay == 3){
+            this.minecraft.getTextureManager().bind(gameover);
+            this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
+            drawString(p_230430_1_, this.font, new TranslationTextComponent("You win!").withStyle(TextFormatting.WHITE), 150, 110, 16777215);
+            drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
+            drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
+        }
+        
     }
     
     
@@ -276,12 +313,23 @@ public class InvadersScreen extends Screen {
     		}
     	}
     	if (bottomReached == true) {
-    		for (int j = 0; j < NumberOfInvaders; j++) {
-    			invaders.get(j).isVisible=false;
-    		}
+        	 tank.isVisible=false;  //to end the game
     	}
     }
 
+    /**
+    * check if all alien are alive
+    */
+    public boolean invaderAlive() {
+    	for (int j = 0; j < NumberOfInvaders; j++) {
+    		if (invaders.get(j).isVisible==true) {
+    			return true;
+    		};
+    	}
+       	return false;
+    }
+	
+    
     /**
      * Display the score on gui screen
      *
@@ -290,10 +338,8 @@ public class InvadersScreen extends Screen {
     public void displayScore(MatrixStack p_230430_1_){
         int relX = (this.width - textureWidth) / 2;
         drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), relX, 10, 16777215);
-        drawString(p_230430_1_, this.font, new TranslationTextComponent("Press t to score up").withStyle(TextFormatting.WHITE), relX, 25, 16777215);
-        drawString(p_230430_1_, this.font, new TranslationTextComponent("Press r to reset").withStyle(TextFormatting.WHITE), relX, 40, 16777215);
-        drawString(p_230430_1_, this.font, new TranslationTextComponent("Press q to gameover").withStyle(TextFormatting.WHITE), relX, 55, 16777215);
-        drawString(p_230430_1_, this.font, new TranslationTextComponent("Press p to pause").withStyle(TextFormatting.WHITE), relX, 70, 16777215);
+        drawString(p_230430_1_, this.font, new TranslationTextComponent("Press q to gameover").withStyle(TextFormatting.WHITE), relX, 25, 16777215);
+        drawString(p_230430_1_, this.font, new TranslationTextComponent("Press p to pause").withStyle(TextFormatting.WHITE), relX, 40, 16777215);
     }
 
     /**
@@ -314,34 +360,36 @@ public class InvadersScreen extends Screen {
         }
         if(!this.isPaused) {
             // move player to left
-            if (typedChar == 'a') {
+            if ((typedChar == 'a' || typedChar == 'A') && tank.isVisible) {
                 tank.movesLeft = true;
                 tank.movePlayer();
             }
             // move player to right
-            if (typedChar == 'd') {
+            if ((typedChar == 'd' || typedChar == 'D') && tank.isVisible) {
                 tank.movesRight = true;
                 tank.movePlayer();
             }
             //space bar for firing a shot
-            if (typedChar == ' ' && !shot.movesUp) {
+            if (typedChar == ' ' && !shot.movesUp && tank.isVisible) {
                 shot.setxpos(tank.getxpos());
                 shot.setypos(tank.getypos());
                 shot.movesUp = true;
             }
-            if (typedChar == 'r') {
-                scoreReset();
-                drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
-            }
-            if (typedChar == 't') {
-                scoreUp(10);
-                drawCenteredString(this.matrixStack, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), this.width / 2, 30, 16777215);
-            }
+ 
         }
 
         super.charTyped(typedChar, keyCode);
         return true;
-    }   
+    }
+    /**
+     * Tank detect a hit from alien
+     */
+    public void detectTankHit() {
+     	if ((Math.abs(invaderShot.getxpos()-tank.getxpos())<1 && invaderShot.getypos()>236 &&  invaderShot.getypos()<252) || (Math.abs(invaderShot.getxpos()-tank.getxpos())<6 && invaderShot.getypos()>240 &&  invaderShot.getypos()<252)) {
+     	 tank.isVisible=false;
+     	}
+     	
+    }
 
     /**
      * Resets the score

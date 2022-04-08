@@ -2,6 +2,7 @@ package com.project.pufferfish.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.project.pufferfish.Invaders;
+import com.project.pufferfish.tileentity.ArcadeMachineTile;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -17,8 +18,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
-
 
 
 /**
@@ -258,6 +257,10 @@ public class InvadersScreen extends Screen {
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Game over!").withStyle(TextFormatting.WHITE), 150, 110, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
+            // tells the ArcadeMachineTile that the player has gotten a high score for a prize
+            if(this.score > 400){
+                ArcadeMachineTile.hasHighScoreForPrize = true;
+            }
         }
       //gameover winning 
         else if(gamePlay == 3){
@@ -266,6 +269,10 @@ public class InvadersScreen extends Screen {
             drawString(p_230430_1_, this.font, new TranslationTextComponent("You win!").withStyle(TextFormatting.WHITE), 150, 110, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
+            // tells the ArcadeMachineTile that the player has gotten a high score for a prize
+            if(this.score > 400){
+                ArcadeMachineTile.hasHighScoreForPrize = true;
+            }
         }
         
     }

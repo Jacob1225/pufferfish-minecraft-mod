@@ -76,7 +76,6 @@ public class ArcadeMachineBlock extends Block {
                 // if token was placed in arcade machine then open invaders GUI on right click
                 if (getTokenCheck()) {
 
-
                     // opens Invaders screen
                     openGui(player, worldIn, pos);
 

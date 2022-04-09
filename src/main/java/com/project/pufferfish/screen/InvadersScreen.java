@@ -59,7 +59,7 @@ public class InvadersScreen extends Screen {
     
     //Display score variables
     MatrixStack matrixStack;
-    private int score;
+    private int score = 0;
 
     //Invader variables
     public int invaderWidth=textureWidth/15, invaderHeight=textureHeight/15;
@@ -121,6 +121,15 @@ public class InvadersScreen extends Screen {
      * @return
      */
     public boolean shouldCloseOnEsc() {
+        // tells the ArcadeMachineTile that the player has gotten a high score for a prize
+        if(this.score >= 400){
+            ArcadeMachineTile.hasHighScoreForPrize = true;
+        }
+        else{
+            ArcadeMachineTile.hasHighScoreForPrize = false;
+        }
+        
+        this.scoreReset();
         this.gamePlay = -1;
         return true;
     }
@@ -257,10 +266,6 @@ public class InvadersScreen extends Screen {
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Game over!").withStyle(TextFormatting.WHITE), 150, 110, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
-            // tells the ArcadeMachineTile that the player has gotten a high score for a prize
-            if(this.score > 400){
-                ArcadeMachineTile.hasHighScoreForPrize = true;
-            }
         }
       //gameover winning 
         else if(gamePlay == 3){
@@ -269,10 +274,6 @@ public class InvadersScreen extends Screen {
             drawString(p_230430_1_, this.font, new TranslationTextComponent("You win!").withStyle(TextFormatting.WHITE), 150, 110, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Score: ").append((new StringTextComponent(Integer.toString(score)).withStyle(TextFormatting.WHITE))), 150, 130, 16777215);
             drawString(p_230430_1_, this.font, new TranslationTextComponent("Press 'esc' to quit").withStyle(TextFormatting.WHITE), 150, 138, 16777215);
-            // tells the ArcadeMachineTile that the player has gotten a high score for a prize
-            if(this.score > 400){
-                ArcadeMachineTile.hasHighScoreForPrize = true;
-            }
         }
         
     }

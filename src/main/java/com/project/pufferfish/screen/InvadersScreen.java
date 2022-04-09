@@ -128,7 +128,7 @@ public class InvadersScreen extends Screen {
         else{
             ArcadeMachineTile.hasHighScoreForPrize = false;
         }
-        
+
         this.scoreReset();
         this.gamePlay = -1;
         return true;

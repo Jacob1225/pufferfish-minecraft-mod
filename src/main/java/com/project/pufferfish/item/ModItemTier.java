@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 public enum ModItemTier implements IItemTier {
     // Properties of trophy weapon
-    TROPHY(3, 150, 4f, 12f, 10,
+    TROPHY(3, 25, 4f, 12f, 10,
             () -> Ingredient.of(ModItems.PRIZE_TICKET.get()));
 
     private final int harvestLevel;

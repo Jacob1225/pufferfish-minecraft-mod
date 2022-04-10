@@ -16,10 +16,10 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static com.project.pufferfish.block.custom.ArcadeMachineBlock.PLAYED;
 
 public class ArcadeMachineTile extends TileEntity {
 
+    public static boolean hasHighScoreForPrize;
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
     private static boolean hasToken;
@@ -112,17 +112,18 @@ public class ArcadeMachineTile extends TileEntity {
         return hasToken;
     }
 
-    // method for consumption of token and post-game reward when user plays game
+    // method for post-game reward when user plays game
     public void prizeCheck() {
-        this.itemHandler.getStackInSlot(0).shrink(1);
-
-        // TODO: change to boolean isArcadeMachineWinner() when implemented in ArcadeMachineContainer;
-        boolean hasHighScoreForPrize = true;
-
         // leave prize in the slot if player played and got a high score
         if (hasHighScoreForPrize) {
             this.itemHandler.insertItem(0, new ItemStack(ModItems.PRIZE_TICKET.get()), false);
+            hasHighScoreForPrize = false;
         }
+    }
+
+    // method for consumption of token when user plays game
+    public void consumeToken() {
+        this.itemHandler.getStackInSlot(0).shrink(1);
         hasToken = false;
     }
 

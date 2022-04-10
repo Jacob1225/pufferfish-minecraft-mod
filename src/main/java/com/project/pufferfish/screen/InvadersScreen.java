@@ -2,6 +2,7 @@ package com.project.pufferfish.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.project.pufferfish.Invaders;
+import com.project.pufferfish.tileentity.ArcadeMachineTile;
 import com.project.pufferfish.utils.ModSoundEvents;
 
 import net.minecraft.client.gui.screen.Screen;
@@ -21,8 +22,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
-
 
 
 /**
@@ -65,7 +64,7 @@ public class InvadersScreen extends Screen {
     
     //Display score variables
     MatrixStack matrixStack;
-    private int score;
+    private int score = 0;
 
     //Invader variables
     public int invaderWidth=textureWidth/15, invaderHeight=textureHeight/15;
@@ -127,6 +126,15 @@ public class InvadersScreen extends Screen {
      * @return
      */
     public boolean shouldCloseOnEsc() {
+        // tells the ArcadeMachineTile that the player has gotten a high score for a prize
+        if(this.score >= 400){
+            ArcadeMachineTile.hasHighScoreForPrize = true;
+        }
+        else{
+            ArcadeMachineTile.hasHighScoreForPrize = false;
+        }
+
+        this.scoreReset();
         this.gamePlay = -1;
         return true;
     }

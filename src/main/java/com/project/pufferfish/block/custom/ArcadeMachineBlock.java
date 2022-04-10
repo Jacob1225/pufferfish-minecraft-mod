@@ -73,17 +73,16 @@ public class ArcadeMachineBlock extends Block {
             TileEntity tileEntity = worldIn.getBlockEntity(pos);
 
             if (tileEntity instanceof ArcadeMachineTile) {
+                // check if prize should be given
+                ((ArcadeMachineTile) tileEntity).prizeCheck();
                 // if token was placed in arcade machine then open invaders GUI on right click
                 if (getTokenCheck()) {
-
-
                     // opens Invaders screen
                     openGui(player, worldIn, pos);
-
-                    // after playing game, check for prize and set hasToken back to false
-                    ((ArcadeMachineTile) tileEntity).prizeCheck();
+                    // set blockstate back to not played
                     worldIn.setBlock(pos, state.setValue(PLAYED, false), 3);
-
+                    // consume token after playing
+                    ((ArcadeMachineTile) tileEntity).consumeToken();
                 }
                 // else, display arcade machine inventory page
                 else {

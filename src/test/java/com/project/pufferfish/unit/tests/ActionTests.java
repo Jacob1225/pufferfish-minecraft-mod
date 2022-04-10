@@ -49,6 +49,44 @@ public class ActionTests {
     {
         doTest(ModBlocks.ARCADE_MACHINE.get(), Items.DIAMOND_PICKAXE, true);
     }
+    
+    @Test 
+    public void testTrophyAttackStrengthDelay()
+    
+    {
+       final PlayerEntity player = FakePlayerFactory.getMinecraft(ServerLifecycleHooks.getCurrentServer().overworld());
+       final ItemStack stack = new ItemStack(ModItems.SPACE_INVADERS_TROPHY.get());
+       player.setItemInHand(Hand.MAIN_HAND, stack);
+       assertEquals(5.0, player.getCurrentItemAttackStrengthDelay(), "Expect 5.0 attack strength delay");
+    }
+    
+    @Test 
+    public void testTrophyMaxDamage()
+    
+    {
+        final ItemStack stack = new ItemStack(ModItems.SPACE_INVADERS_TROPHY.get());
+
+       assertEquals(25.0, ModItems.SPACE_INVADERS_TROPHY.get().getMaxDamage(stack), "Expect Trophy to be damaged");
+    }
+    
+    @Test 
+    public void testTrophyAttack()
+    
+    {
+       final PlayerEntity player = FakePlayerFactory.getMinecraft(ServerLifecycleHooks.getCurrentServer().overworld());
+       final PlayerEntity player2 = FakePlayerFactory.getMinecraft(ServerLifecycleHooks.getCurrentServer().overworld());
+       final ItemStack stack = new ItemStack(ModItems.SPACE_INVADERS_TROPHY.get());
+
+       player.setItemInHand(Hand.MAIN_HAND, stack);
+       player.attack(player2);
+       assertEquals(20.0, player2.getHealth(), "Expect Player2 to be 20 health");
+    }
+    
+    @Test
+    public void testTrophyAsWeapon()
+    {
+        doTest(ModBlocks.ARCADE_MACHINE.get(), Items.DIAMOND_PICKAXE, true);
+    }
 	
 	private void doTest(Block block, Item item, boolean shouldHarvest)
     {
@@ -65,5 +103,7 @@ public class ActionTests {
         player.setItemInHand(Hand.MAIN_HAND, stack);
         assertEquals(shouldHarvest, player.hasCorrectToolForDrops(state), message);
     }
+    
+   
 
 }

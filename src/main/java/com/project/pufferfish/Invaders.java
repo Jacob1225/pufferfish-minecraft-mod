@@ -5,6 +5,8 @@ import com.project.pufferfish.container.ModContainers;
 import com.project.pufferfish.item.ModItems;
 import com.project.pufferfish.screen.ArcadeMachineScreen;
 import com.project.pufferfish.tileentity.ModTileEntities;
+import com.project.pufferfish.utils.ModSoundEvents;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.ScreenManager;
@@ -42,6 +44,7 @@ public class Invaders
         ModBlocks.register(eventBus);
         ModTileEntities.register(eventBus);
         ModContainers.register(eventBus);
+        ModSoundEvents.register(eventBus);
 
         eventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading

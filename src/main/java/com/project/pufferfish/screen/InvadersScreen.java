@@ -2,12 +2,16 @@ package com.project.pufferfish.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.project.pufferfish.Invaders;
+import com.project.pufferfish.utils.ModSoundEvents;
+
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -28,8 +32,8 @@ public class InvadersScreen extends Screen {
     private int delayTicker;
 
     // Gui background (black image)
-    private static final ResourceLocation gametitle = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-start2.jpeg");
-    private static final ResourceLocation gameover = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-over.jpeg");
+    private static final ResourceLocation gametitle = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-start.jpg");
+    private static final ResourceLocation gameover = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-over.jpg");
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
     private static final ResourceLocation pausebackground = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
     private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
@@ -40,6 +44,7 @@ public class InvadersScreen extends Screen {
     private static final ResourceLocation invader4Image = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invader4.png");
     private static final ResourceLocation fireImage1 = new ResourceLocation(Invaders.MOD_ID, "textures/gui/tankfire1.png");
     private static final ResourceLocation fireImage2 = new ResourceLocation(Invaders.MOD_ID, "textures/gui/tankfire2.png"); 
+
     
     //Gui variables
     public int textureWidth = 256, textureHeight = 266;
@@ -141,7 +146,7 @@ public class InvadersScreen extends Screen {
             this.addButton(new Button(this.width / 2 - 90, this.height / 4 + 120, 180, 20, new TranslationTextComponent("Start Game"), (p_213021_1_) -> {
                this.gamePlay = 1;
             }));
-            this.minecraft.getTextureManager().bind(background);
+            this.minecraft.getTextureManager().bind(gametitle);
             this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
             super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
         }
@@ -174,10 +179,13 @@ public class InvadersScreen extends Screen {
                 }
                 
               //tank shot only when space bar is pressed
-                if (shot.movesUp) {  
+                if (shot.movesUp) {
+                	
                 	shot.moveShotUp();
                 	this.minecraft.getTextureManager().bind(shotImage);
+   
                 	this.blit(p_230430_1_, relX+shot.getxpos(), relY+shot.getypos(),0,0,playerWidth,playerHeight,playerWidth,playerHeight);
+                	
                 	if (shot.getypos()<10) {
             			shot.movesUp=false;
             		 }
@@ -209,6 +217,9 @@ public class InvadersScreen extends Screen {
                     				invaders.get(i).invaderShot();
                     				shot.movesUp = false;
                     				scoreUp(invaders.get(i).points);
+                    				
+                    				//play sound when an invader is killed
+                    				world.playSound(null, pos, ModSoundEvents.invaderkilled.get(), SoundCategory.AMBIENT, 1,1);
                     	}
         			}
         			
@@ -374,6 +385,8 @@ public class InvadersScreen extends Screen {
                 shot.setxpos(tank.getxpos());
                 shot.setypos(tank.getypos());
                 shot.movesUp = true;
+                //shooting sounds
+                world.playSound(null, pos, ModSoundEvents.shoot.get(),SoundCategory.AMBIENT, 1,1);
             }
  
         }
@@ -386,7 +399,9 @@ public class InvadersScreen extends Screen {
      */
     public void detectTankHit() {
      	if ((Math.abs(invaderShot.getxpos()-tank.getxpos())<1 && invaderShot.getypos()>236 &&  invaderShot.getypos()<252) || (Math.abs(invaderShot.getxpos()-tank.getxpos())<6 && invaderShot.getypos()>240 &&  invaderShot.getypos()<252)) {
-     	 tank.isVisible=false;
+     		//explosion sound when the tank is hit
+     		world.playSound(null, pos, ModSoundEvents.explosion.get(), SoundCategory.AMBIENT,1,1);
+     		tank.isVisible=false;
      	}
      	
     }

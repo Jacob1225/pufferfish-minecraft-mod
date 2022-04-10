@@ -1,0 +1,11 @@
+{
+	"shoot":{ 
+		"sounds": ["pufferfish:shoot"]
+	},
+	"explosion":{ 
+	"sounds": ["pufferfish:explosion"]
+	},
+	"invaderkilled":{ 
+	"sounds":["pufferfish:invaderkilled"]
+	} 
+}

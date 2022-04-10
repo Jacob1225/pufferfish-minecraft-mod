@@ -1,5 +1,6 @@
 package com.project.pufferfish.screen;
 
+
 public class Player {
 	
 	public int x;
@@ -41,7 +42,7 @@ public class Player {
     }
     
     public void moveShotUp() {
-    	y = y - speed-1;	
+    	y = y - speed-1;
 		
 	 }	
     public void moveShotDown() {

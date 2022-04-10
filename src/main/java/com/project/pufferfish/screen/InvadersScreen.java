@@ -32,8 +32,8 @@ public class InvadersScreen extends Screen {
     private int delayTicker;
 
     // Gui background (black image)
-    private static final ResourceLocation gametitle = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-start2.jpeg");
-    private static final ResourceLocation gameover = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-over.jpeg");
+    private static final ResourceLocation gametitle = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-start.jpg");
+    private static final ResourceLocation gameover = new ResourceLocation(Invaders.MOD_ID, "textures/gui/game-over.jpg");
     private static final ResourceLocation background = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
     private static final ResourceLocation pausebackground = new ResourceLocation(Invaders.MOD_ID, "textures/gui/invaders_gui.png");
     private static final ResourceLocation playerImage = new ResourceLocation(Invaders.MOD_ID, "textures/gui/player.png");
@@ -146,7 +146,7 @@ public class InvadersScreen extends Screen {
             this.addButton(new Button(this.width / 2 - 90, this.height / 4 + 120, 180, 20, new TranslationTextComponent("Start Game"), (p_213021_1_) -> {
                this.gamePlay = 1;
             }));
-            this.minecraft.getTextureManager().bind(background);
+            this.minecraft.getTextureManager().bind(gametitle);
             this.blit(p_230430_1_, relX, relY, 0, 0, textureWidth, textureHeight);
             super.render(this.matrixStack, p_230430_2_, p_230430_3_, p_230430_4_);
         }
